@@ -1,0 +1,12 @@
+{
+    "name": "cgmulti",
+    "version": "0.1.0",
+    "dependencies": {
+        "ejs": "~2.6.1",
+        "express": "~4.16.3",
+        "fs": "0.0.1-security",
+        "util": "^0.11.0"
+    },
+    "author": "Azkellas",
+    "description": "A tool to display and compare ranks on CodinGame multis"
+}

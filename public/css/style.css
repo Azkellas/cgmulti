@@ -1,0 +1,44 @@
+.game
+{
+    font-weight: bold;
+}
+
+.Legend
+{
+    color: #bb1f1f;
+}
+
+.Gold
+{
+    color: #ffd700;
+}
+
+.Silver
+{
+    color: #c0c0c0;
+}
+
+.Bronze
+{
+    color: #cd7f32;
+}
+
+.Wood
+{
+    color: #00cc00;
+}
+
+.undefined
+{
+    color: #888888;
+}
+
+.no_league
+{
+    color: #cc88cc
+}
+
+.first
+{
+    font-weight: bold;
+}
