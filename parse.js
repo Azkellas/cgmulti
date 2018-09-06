@@ -46,14 +46,12 @@ module.exports = {
                         console.log(player_ranks)
                     }
                     let is_first = (rank_value(player_rank, game) === min_rank)
-                    console.log("ranks: " + min_rank + " <=? " + rank_value(player_rank, game))
                     // construct output rank
                     results['games'][game][i] = copy(rank)
                     results['games'][game][i]['rank'] += get_cardinal(rank['rank'])
                     if (is_first)
                     {
                         results['games'][game][i]['first'] = 'first'
-                        console.log('found first')
                     }
                     else
                     {
@@ -175,7 +173,6 @@ async function getRankInMulti (pseudo, multi)
                 if (league === '')
                     league = 'no_league'
                 let rank = u['localRank'];
-                console.log("getRankMulti " + pseudo + " " + rank + " " + league)
                 return [multi, rank, league]
             }
         }
@@ -189,13 +186,10 @@ const games = ['code-of-kutulu', 'code-royale', 'tic-tac-toe', 'botters-of-the-g
 async function getRanks(nickname)
 {
     let player_ranks = await Promise.all(games.map( game => getRankInMulti(nickname, game)))
-    console.log("ranks")
-    console.log(player_ranks)
     let ranks = {}
     for (let i = 0; i < player_ranks.length; ++i)
     {
         let [game, rank, league] = player_ranks[i]
-        console.log(game)
         if (rank)
         {
             ranks[prettify(game)] = {'rank': rank, 'league': league}
@@ -205,10 +199,8 @@ async function getRanks(nickname)
             // player not found
             ranks[prettify(game)] = undefined
         }
-        console.log("getRanks " + nickname + ": " + game)
-        console.log(ranks[prettify(game)])
     }
-    console.log("output")
+    console.log("output " + nickname)
     console.log(ranks)
     return ranks
 }

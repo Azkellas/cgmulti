@@ -1,3 +1,4 @@
+#!/usr/bin/python3
 import os
 import json
 import sys
@@ -13,10 +14,12 @@ def download_leaderboard(multi):
 
 	r = requests.post(req_t, data=arg)
 	d = r.json()
-
-	with open("leaderboards/"+multi+".json", "w") as f:
-		f.write(json.dumps(d))
-
+	try:
+		with open("/var/www/cgmulti/leaderboards/"+multi+".json", "w") as f:
+			f.write(json.dumps(d))
+			print("I correctly saved " + multi)
+	except ValueError:
+		print("Could not dump json: " + ValueError)
 
 
 
@@ -26,7 +29,7 @@ if __name__ == "__main__":
 		path_file = 'leaderboards/' + game + '.json'
 
 		# check if the file is recent enough
-		timestamp = os.stat(path_file).st_mtime
-		if time.time() - timestamp > 3000:
-			print("updating leaderboards")
-			download_leaderboard(game)
+		# timestamp = os.stat(path_file).st_mtime
+		# if time.time() - timestamp > 3000:
+		print("updating leaderboards")
+		download_leaderboard(game)
