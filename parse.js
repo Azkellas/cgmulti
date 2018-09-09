@@ -1,84 +1,38 @@
 util = require('util');
 
-module.exports = {
-    compare : async function(players)
-    {
+var exports = module.exports = {};
 
-        // returns an object
-        // keys of object = game
-        // keys of given game = players
-
-        results = {}
-        results['players'] = {}
-        results['games'] = {}
-
-        players = players.split(' ')
-
-        let player_ranks = await Promise.all(players.map(player => getRanks(player)));
-        // console.log(player_ranks)        
-
-        // stores players
-        results['players'] = players
-
-        for (let game in player_ranks[0])
-        {
-            // game = string name (formatted)
-            // console.log("game")
-            // console.log(game)
-            // add game
-            results['games'][game] = {}
-            for (let i = 0; i < players.length; ++i)
-            {
-                const player_rank = player_ranks[i]
-                // add player rank for the given game
-                if (player_rank[game])
-                {
-                    // console.log("pk: ")
-                    // console.log(player_rank)
-                    // console.log(player_rank[game])
-                    const rank = player_rank[game]
-                    const values =  (player_ranks.map(p_rank => rank_value(p_rank, game)))
-                    let min_rank = Math.min.apply(null, values)
-                    if (isNaN(min_rank))
-                    {
-                        console.log(values)
-                        console.log("NaN")
-                        console.log(player_ranks)
-                    }
-                    let is_first = (rank_value(player_rank, game) === min_rank)
-                    // construct output rank
-                    results['games'][game][i] = copy(rank)
-                    results['games'][game][i]['rank'] += get_cardinal(rank['rank'])
-                    if (is_first)
-                    {
-                        results['games'][game][i]['first'] = 'first'
-                    }
-                    else
-                    {
-                        results['games'][game][i]['first'] = ''
-                    }
-                }
-                else
-                {
-                    results['games'][game][i] = null
-                }
-            }
-        }
-        return results        
-    }
-        
-};
+const games = ['code-of-kutulu', 'code-royale', 'tic-tac-toe', 'botters-of-the-galaxy', 'code4life', 'mean-max', 'wondev-woman', 'coders-of-the-caribbean',  'ghost-in-the-cell', 'fantastic-bits', 'hypersonic', 'codebusters', 'smash-the-code', 'coders-strike-back', 'back-to-the-code', 'great-escape', 'platinum-rift2', 'platinum-rift', 'poker-chip-race', 'game-of-drone', 'tron-battle']
 
 
-function copy(mainObj) {
-    let objCopy = {}; // objCopy will store a copy of the mainObj
-    let key;
-  
-    for (key in mainObj) {
-        objCopy[key] = mainObj[key]; // copies each property to the objCopy object
-    }
-    return objCopy;
+exports.compare = async function (players)
+{
+
+    // returns an object
+    // keys of object = game
+    // keys of given game = players
+
+    results = {}
+    results['players'] = {}
+    results['games'] = {}
+    players = players.split(' ')
+    
+    let games_ranks = await Promise.all(games.map(game => getRanksInMulti(game, players)));
+    // console.log(player_ranks)        
+    
+    // stores players
+    results['players'] = players
+    // stores game results
+    for (var json of games_ranks)
+        for (var game in json)
+            results['games'][game] = json[game]
+
+    console.log(results)
+    // compute firsts
+    return results        
 }
+    
+
   
 function league_value(league)
 {
@@ -146,10 +100,12 @@ function prettify(game)
 
     
 
-async function getRankInMulti (pseudo, multi)
+
+async function getRanksInMulti (multi, pseudos)
 {
     let path_file = __dirname + '/leaderboards/' + multi + '.json';
 
+    multi = prettify(multi)
     const fs = require('fs');
     let readFile = util.promisify(fs.readFile);
     let content = await readFile(path_file);
@@ -158,50 +114,54 @@ async function getRankInMulti (pseudo, multi)
 
     let users = data['success']['users'];
 
+    let pseudoRemaining = pseudos.length
+    let result = {}
+    result[multi] = {}
+    let minValue = 1e21
+    let bestPlayer = ''
     for (u of users)
     {
+        if (pseudoRemaining == 0)
+        {
+            if (bestPlayer !== '')
+            result[multi][bestPlayer]['first'] = 'first'
+            return result;
+        }
+
         // console.log(u)
         if (u['pseudo'])
         {
-            if (u['pseudo'] === pseudo)
+            for (pseudo of pseudos)
             {
-                let league = '';
-                if (u['league'])
+
+                if (u['pseudo'] === pseudo)
                 {
-                    league = get_league(u['league']['divisionIndex'], u['league']['divisionCount']);
+                    let league = '';
+                    if (u['league'])
+                        league = get_league(u['league']['divisionIndex'], u['league']['divisionCount']);
+                    if (league === '')
+                        league = 'no_league'
+                    let rank = u['localRank'];
+                    result[multi][pseudo] = {'rank': rank + get_cardinal(rank), 'league': league, 'first':''}
+                    if (rank_value(result[multi][pseudo], multi) < minValue)
+                    {
+                        minValue = rank_value(result[multi][pseudo], multi)
+                        bestPlayer = pseudo
+                    }
+                    pseudoRemaining--;
+                    break
                 }
-                if (league === '')
-                    league = 'no_league'
-                let rank = u['localRank'];
-                return [multi, rank, league]
             }
         }
     }
-    return [multi, undefined, undefined] // player not found
-}
-
-const games = ['code-of-kutulu', 'code-royale', 'tic-tac-toe', 'botters-of-the-galaxy', 'code4life', 'mean-max', 'wondev-woman', 'coders-of-the-caribbean',  'ghost-in-the-cell', 'fantastic-bits', 'hypersonic', 'codebusters', 'smash-the-code', 'coders-strike-back', 'back-to-the-code', 'great-escape', 'platinum-rift2', 'platinum-rift', 'poker-chip-race', 'game-of-drone', 'tron-battle']
-
-
-async function getRanks(nickname)
-{
-    let player_ranks = await Promise.all(games.map( game => getRankInMulti(nickname, game)))
-    let ranks = {}
-    for (let i = 0; i < player_ranks.length; ++i)
+    for (pseudo of pseudos)
     {
-        let [game, rank, league] = player_ranks[i]
-        if (rank)
+        if (typeof result[multi][pseudo] === 'undefined')
         {
-            ranks[prettify(game)] = {'rank': rank, 'league': league}
-        }
-        else
-        {
-            // player not found
-            ranks[prettify(game)] = undefined
+            result[multi][pseudo] = {'rank': undefined, 'league': undefined, 'first':''}
         }
     }
-    console.log("output " + nickname)
-    console.log(ranks)
-    return ranks
+    if (bestPlayer !== '')
+        result[multi][bestPlayer]['first'] = 'first'
+    return result// player not found
 }
-

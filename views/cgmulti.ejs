@@ -37,8 +37,8 @@
                     <% for (var game in data['games']) { %>
                         <tr>
                             <th scope="row"><span class="game"><%=game %></span></th>
-                            <% for (var i in data['games'][game]) {%>
-                                <% let player = data['games'][game][i]; %>
+                            <% for (player_name of data['players']) {%>
+                                <% let player = data['games'][game][player_name]; %>
                                 <% if (player) { %>
                                     <td><span class="<%=player['league']%> <%=player['first']%>"> <%= player['rank']%> 
                                     <% if (player['league'] !== 'no_league') {%> 
