@@ -34,5 +34,4 @@ if __name__ == "__main__":
 		# check if the file is recent enough
 		# timestamp = os.stat(path_file).st_mtime
 		# if time.time() - timestamp > 3000:
-		print("updating leaderboards")
 		download_leaderboard(game)
