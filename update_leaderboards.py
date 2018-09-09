@@ -3,7 +3,7 @@ import os
 import json
 import sys
 import time
-
+from datetime import datetime
 import requests
 
 
@@ -14,12 +14,15 @@ def download_leaderboard(multi):
 
 	r = requests.post(req_t, data=arg)
 	d = r.json()
+	if "error" in d:
+		print(str(datetime.now()) + ": skip multi " + multi + ", got the API error :" + d["error"]["message"])
+		return
+
 	try:
 		with open("/var/www/cgmulti/leaderboards/"+multi+".json", "w") as f:
 			f.write(json.dumps(d))
-			print("I correctly saved " + multi)
 	except ValueError:
-		print("Could not dump json: " + ValueError)
+		print(str(datetime.now()) + ": could not dump json of " + multi + ": " + ValueError)
 
 
 
