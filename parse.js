@@ -12,10 +12,12 @@ exports.compare = async function (players)
     let results = {};
     results.players = {};
     results.games = {};
+    results.players_not_found = [];
+    results.players_found = [];
+
     players = players.split(' ');
 
     let games_ranks = await Promise.all(games.map(game => getRanksInMulti(game, players)));
-    // console.log(player_ranks)        
 
     // stores players
     results.players = players;
@@ -24,6 +26,32 @@ exports.compare = async function (players)
         for (let game in json)
             results.games[game] = json[game];
 
+    // check for players found / not found
+    for (let player of players)
+    {
+        let found = false;
+        for (let game of games)
+        {
+            game = prettify(game)
+            if (!results.games[game][player])
+            {
+                console.log("Issue: player not in game " + game + ' ' + player);
+                continue;
+            }
+            if (results.games[game][player].rank !== undefined)
+            {
+                found = true;
+                console.log('found ' + player + ' in ' + game)
+                console.log(results.games[game][player].rank)
+                results.players_found.push(player)
+                break;
+            }
+        }
+        if (!found)
+        {
+            results.players_not_found.push(player)
+        }
+    }
     console.log(results);
     // compute firsts
     return results; 
