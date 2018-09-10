@@ -1,4 +1,7 @@
-util = require('util');
+"use strict";
+
+var util = require('util');
+const fs = require('fs');
 
 var exports = module.exports = {};
 
@@ -8,24 +11,20 @@ const games = ['code-of-kutulu', 'code-royale', 'tic-tac-toe', 'botters-of-the-g
 exports.compare = async function (players)
 {
 
-    // returns an object
-    // keys of object = game
-    // keys of given game = players
-
-    results = {}
-    results['players'] = {}
-    results['games'] = {}
+    let results = {}
+    results.players = {}
+    results.games = {}
     players = players.split(' ')
     
     let games_ranks = await Promise.all(games.map(game => getRanksInMulti(game, players)));
     // console.log(player_ranks)        
     
     // stores players
-    results['players'] = players
+    results.players = players
     // stores game results
-    for (var json of games_ranks)
-        for (var game in json)
-            results['games'][game] = json[game]
+    for (let json of games_ranks)
+        for (let game in json)
+            results.games[game] = json[game]
 
     console.log(results)
     // compute firsts
@@ -33,23 +32,17 @@ exports.compare = async function (players)
 }
     
 
-  
+
+const league_value_array = ['Legend', 'Gold', 'Silver', 'Bronze', 'Wood', 'no_league']
 function league_value(league)
 {
-
-    if (league == "Legend")
+    let idx = league_value_array.indexOf(league)
+    if (idx == -1)
+    {
+        // impossible case
         return 0
-	if (league == "Gold")
-        return 1
-	if (league == "Silver")
-        return 2
-	if (league == "Bronze")
-        return 3
-	if (league == "Wood")
-        return 4
-    if (league == "no_league")
-        return 0
-	return 0  // impossible case
+    }
+	return idx
 }
 
 function rank_value(player_rank, game)
@@ -60,14 +53,15 @@ function rank_value(player_rank, game)
 }
 
 
+const get_league_array = {
+    1: 'Legend',
+    2: 'Gold',
+    3: 'Silver',
+    4: 'Bronze'
+}
 function get_league(division_index, division_count)
 {
-    return {
-        1: 'Legend',
-		2: 'Gold',
-		3: 'Silver',
-		4: 'Bronze'
-	}[division_count-division_index] || 'Wood' // if less than 4, it is a wood league
+    return get_league_array[division_count-division_index] || 'Wood' // if less than 4, it is a wood league
 }
 
 function get_cardinal(value)
@@ -85,17 +79,7 @@ function get_cardinal(value)
 // "code-royale" -> "Code Royale"
 function prettify(game)
 {
-    game = game.split('')
-    for (let i = 0; i < game.length - 1; i++) {
-
-        if (game[i] === '-')
-        {
-            game[i+1] = game[i+1].toUpperCase()
-            game[i]   = ' '
-        }
-    }
-    game[0] = game[0].toUpperCase()
-    return game.join('')
+    return game.split('-').map(word => word[0].toUpperCase() + word.substr(1)).join(' ');
 }
 
     
@@ -106,7 +90,6 @@ async function getRanksInMulti (multi, pseudos)
     let path_file = __dirname + '/leaderboards/' + multi + '.json';
 
     multi = prettify(multi)
-    const fs = require('fs');
     let readFile = util.promisify(fs.readFile);
     let content = await readFile(path_file);
 
@@ -119,7 +102,7 @@ async function getRanksInMulti (multi, pseudos)
     result[multi] = {}
     let minValue = 1e21
     let bestPlayer = ''
-    for (u of users)
+    for (var u of users)
     {
         if (pseudoRemaining == 0)
         {
@@ -131,7 +114,7 @@ async function getRanksInMulti (multi, pseudos)
         // console.log(u)
         if (u['pseudo'])
         {
-            for (pseudo of pseudos)
+            for (var pseudo of pseudos)
             {
 
                 if (u['pseudo'] === pseudo)
