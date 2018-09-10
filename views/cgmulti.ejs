@@ -23,39 +23,43 @@
                 <input type="submit" /> (example: "Azkellas R4N4R4M4")
             </p>
         </form>
-        <% if (data['players']) {%>
-            <% for (let player of data.players_not_found) {%>
-                Players '<%=player%>' could not be found <br />
-            <%}%>
-            <table class="table table-dark table-striped table-bordered" style="width: auto;">
-                <thead>
-                    <tr>
-                        <th scope="col"></th>
-                        <% for (let player of data.players_found) { %>
-                            <th scope="col"><%=player%></th>
-                        <% } %>
-                    </tr>
-                </thead>
-                <tbody>
-                    <% for (var game in data['games']) { %>
+        <% if (!_.isEmpty(data)) {%>
+            <% if (data.players_not_found !== []) { %>
+                <% for (let player of data.players_not_found) {%>
+                    Players '<%=player%>' could not be found <br />
+                <%}%>
+            <% } %>
+            <% if (data.players_found.length > 0) {%>
+                <table class="table table-dark table-striped table-bordered" style="width: auto;">
+                    <thead>
                         <tr>
-                            <th scope="row"><span class="game"><%=game %></span></th>
-                            <% for (let player_name of data.players_found) {%>
-                                <% let player = data['games'][game][player_name]; %>
-                                <% if (player) { %>
-                                    <td><span class="<%=player['league']%> <%=player['first']%>"> <%= player['rank']%> 
-                                    <% if (player['league'] !== 'no_league') {%> 
-                                        <%=player['league'] %>
-                                    <% }%>
-                                    </span></td>
-                                <% } else {%>
-                                    <td><span class="undefined"> </span></td>
-                                <% } %>
+                            <th scope="col"></th>
+                            <% for (let player of data.players_found) { %>
+                                <th scope="col"><%=player%></th>
                             <% } %>
                         </tr>
-                    <% } %>
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        <% for (var game in data['games']) { %>
+                            <tr>
+                                <th scope="row"><span class="game"><%=game %></span></th>
+                                <% for (let player_name of data.players_found) {%>
+                                    <% let player = data['games'][game][player_name]; %>
+                                    <% if (player) { %>
+                                        <td><span class="<%=player['league']%> <%=player['first']%>"> <%= player['rank']%> 
+                                        <% if (player['league'] !== 'no_league') {%> 
+                                            <%=player['league'] %>
+                                        <% }%>
+                                        </span></td>
+                                    <% } else {%>
+                                        <td><span class="undefined"> </span></td>
+                                    <% } %>
+                                <% } %>
+                            </tr>
+                        <% } %>
+                    </tbody>
+                </table>
+            <% } %>
         <% } %>
         <!-- Optional JavaScript -->
         <!-- jQuery first, then Popper.js, then Bootstrap JS -->

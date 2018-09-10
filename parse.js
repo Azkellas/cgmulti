@@ -7,51 +7,49 @@ var exports = module.exports = {};
 
 const games = ['code-of-kutulu', 'code-royale', 'tic-tac-toe', 'botters-of-the-galaxy', 'code4life', 'mean-max', 'wondev-woman', 'coders-of-the-caribbean',  'ghost-in-the-cell', 'fantastic-bits', 'hypersonic', 'codebusters', 'smash-the-code', 'coders-strike-back', 'back-to-the-code', 'great-escape', 'platinum-rift2', 'platinum-rift', 'poker-chip-race', 'game-of-drone', 'tron-battle']
 
+function onlyUnique(value, index, self) { 
+    return self.indexOf(value) === index;
+}
+
 exports.compare = async function (players)
 {
     let results = {};
-    results.players = {};
-    results.games = {};
     results.players_not_found = [];
     results.players_found = [];
+    results.games = {};
 
     players = players.split(' ');
 
     let games_ranks = await Promise.all(games.map(game => getRanksInMulti(game, players)));
 
-    // stores players
-    results.players = players;
     // stores game results
     for (let json of games_ranks)
         for (let game in json)
             results.games[game] = json[game];
 
-    // check for players found / not found
-    for (let player of players)
+
+    for (let pseudo of players)
     {
-        let found = false;
-        for (let game of games)
+        let alreadyFound = false
+        for (let game in results.games)
         {
-            game = prettify(game)
-            if (!results.games[game][player])
-            {
-                console.log("Issue: player not in game " + game + ' ' + player);
-                continue;
-            }
-            if (results.games[game][player].rank !== undefined)
-            {
-                found = true;
-                console.log('found ' + player + ' in ' + game)
-                console.log(results.games[game][player].rank)
-                results.players_found.push(player)
+            if (alreadyFound)
                 break;
+
+            for (let realPseudo in results.games[game])
+            {
+                if (pseudo.toLowerCase() === realPseudo.toLowerCase())
+                {
+                    alreadyFound = true
+                    results.players_found.push(realPseudo)
+                    break;
+                }
             }
         }
-        if (!found)
-        {
-            results.players_not_found.push(player)
-        }
+        if (!alreadyFound)
+            results.players_not_found.push(pseudo)
     }
+    results.players_found = results.players_found.filter(onlyUnique)
     console.log(results);
     // compute firsts
     return results; 
@@ -147,31 +145,25 @@ async function getRanksInMulti (multi, pseudos)
             for (let pseudo of pseudos)
             {
 
-                if (u['pseudo'] === pseudo)
+                if (u['pseudo'].toLowerCase() === pseudo.toLowerCase())
                 {
+                    let realPseudo = u['pseudo'];
                     let league = '';
                     if (u['league'])
                         league = get_league(u['league']['divisionIndex'], u['league']['divisionCount']);
                     if (league === '')
                         league = 'no_league';
                     let rank = u['localRank'];
-                    result[multi][pseudo] = {'rank': rank + get_cardinal(rank), 'league': league, 'first':''};
-                    if (rank_value(result[multi][pseudo], multi) < minValue)
+                    result[multi][realPseudo] = {'rank': rank + get_cardinal(rank), 'league': league, 'first':''};
+                    if (rank_value(result[multi][realPseudo], multi) < minValue)
                     {
-                        minValue = rank_value(result[multi][pseudo], multi);
-                        bestPlayer = pseudo;
+                        minValue = rank_value(result[multi][realPseudo], multi);
+                        bestPlayer = realPseudo;
                     }
                     pseudoRemaining--;
                     break;
                 }
             }
-        }
-    }
-    for (let pseudo of pseudos)
-    {
-        if (typeof result[multi][pseudo] === 'undefined')
-        {
-            result[multi][pseudo] = {'rank': undefined, 'league': undefined, 'first':''};
         }
     }
     if (bestPlayer !== '')
