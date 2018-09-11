@@ -1,12 +1,12 @@
-th a { cursor: pointer; }
-h1 button { float: right; }
-input { margin: 20px 0 10px; }
-.user-list-enter, .user-list-leave-active {
-  display: none;
+body {
+    height: 100%;
+    background-color: #eee;
 }
-.user-list-move {
-  transition: transform .5s;
-}
+body {
+    text-align: center;
+    text-shadow: 0 1px 3px rgba(0,0,0,.5);
+} 
+
 
 
 .game
@@ -16,37 +16,33 @@ input { margin: 20px 0 10px; }
 
 .Legend
 {
-    color: #bb1f1f;
+    color: #fc3030;
 }
 
 .Gold
 {
-    color: #ffd700;
+    color: #f3d31e;
 }
 
 .Silver
 {
-    color: #c0c0c0;
+    color: #d4d4d4;
 }
 
 .Bronze
 {
-    color: #cd7f32;
+    color: #dd964e;
 }
 
 .Wood
 {
-    color: #00cc00;
+    color: #68d668;
 }
 
-.undefined
-{
-    color: #888888;
-}
 
 .no_league
 {
-    color: #cc88cc
+    color: #ccb1ff
 }
 
 .first
@@ -56,5 +52,14 @@ input { margin: 20px 0 10px; }
 
 a
 {
-    color: white;
+    color: #dddddd;
+}
+
+a:hover
+{
+    color: #ffffff;
+}
+.title
+{
+    padding: 20px 50px;
 }

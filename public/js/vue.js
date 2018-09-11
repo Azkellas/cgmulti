@@ -30,8 +30,6 @@ new Vue({
   methods: {
     getData: function() {
         var vm = this;
-        event.preventDefault();
-        // alert(this.playersQuery);
         axios
         .get('/players/', {
             params: {

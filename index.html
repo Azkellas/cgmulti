@@ -14,11 +14,13 @@
 
     <body>
         <div id="app" class="container">
-            <h1>CG multi</h1>
-
+            <div class="title">
+                <h1>CG multi</h1>
+            </div>
             <!-- {{result}} -->
             <form action="/players/" method="post" v-on:submit.prevent="getData">
-                <input v-model="playersQuery" placeholder="player1 player2 player3" id="playersQuery" class="form-control">
+                <input type="text" v-model="playersQuery" placeholder="player1 player2 player3" id="playersQuery" class="form-control">
+                <input type="submit" style="visibility: hidden;" />
             </form>
     
             <!-- if a request has been made-->
@@ -32,7 +34,7 @@
                 </span>
 
                 <!--  if the table is not empty-->
-                <table v-if="result.players_found.length" class="table table-dark table-striped table-bordered" style="width: auto;">
+                <table v-if="result.players_found.length" class="table table-dark table-striped table-bordered table-hover table-condensed table-sm" >
                     <thead>
                         <tr>
                             <th scope="col"></th>
@@ -66,7 +68,7 @@
 
 
         <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.17/vue.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.16.3/lodash.min.js"></script>
         <script src="/js/vue.js"></script>
 

@@ -34,6 +34,7 @@ app.use(express.static('./public'))
         res.redirect('/');
     else
     {
+        queryData.playersQuery = queryData.playersQuery.trim();
         parser.compare(queryData.playersQuery).then(function(players_data) {
             res.send(players_data);
         });
