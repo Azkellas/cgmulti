@@ -26,7 +26,7 @@
         <% if (!_.isEmpty(data)) {%>
             <% if (data.players_not_found !== []) { %>
                 <% for (let player of data.players_not_found) {%>
-                    Players '<%=player%>' could not be found <br />
+                    Player '<%=player%>' could not be found <br />
                 <%}%>
             <% } %>
             <% if (data.players_found.length > 0) {%>
@@ -42,7 +42,7 @@
                     <tbody>
                         <% for (var game in data['games']) { %>
                             <tr>
-                                <th scope="row"><span class="game"><%=game %></span></th>
+                                <th scope="row"><span class="game"><a href='<%=data.links[game]%>' target="_blank"><%=game %></a></span></th>
                                 <% for (let player_name of data.players_found) {%>
                                     <% let player = data['games'][game][player_name]; %>
                                     <% if (player) { %>
