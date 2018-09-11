@@ -36,10 +36,10 @@ app.use(express.static('./public'))
 
 })
 
-// // redirection
-// .use(function(req, res, next){
-//     res.redirect('/players/');
-// })
+// redirection
+.use(function(req, res, next){
+    res.redirect('/');
+})
 
 
 .listen(8080);
