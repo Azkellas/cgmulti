@@ -1,3 +1,14 @@
+th a { cursor: pointer; }
+h1 button { float: right; }
+input { margin: 20px 0 10px; }
+.user-list-enter, .user-list-leave-active {
+  display: none;
+}
+.user-list-move {
+  transition: transform .5s;
+}
+
+
 .game
 {
     font-weight: bold;

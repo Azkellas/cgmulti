@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+        <!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+
+        <title>CG multi</title>
+        <link rel="stylesheet" href="/css/style.css" />
+    
+    </head>
+
+    <body>
+        <div id="app" class="container">
+            <h1>CG multi</h1>
+
+            <!-- {{result}} -->
+            <form action="/players/" method="post" v-on:submit.prevent="getData">
+                <input v-model="playersQuery" placeholder="player1 player2 player3" id="playersQuery" class="form-control">
+            </form>
+    
+            <!-- if a request has been made-->
+            <span v-if="!_.isEmpty(result)">
+
+                <!-- if some players were not found -->
+                <span v-if="result.players_not_found.length">
+                    <span v-for="player of result.players_not_found">
+                        Player "{{player}}" could not be found <br />
+                    </span>
+                </span>
+
+                <!--  if the table is not empty-->
+                <table v-if="result.players_found.length" class="table table-dark table-striped table-bordered" style="width: auto;">
+                    <thead>
+                        <tr>
+                            <th scope="col"></th>
+                            <th v-for="player of result.players_found">{{player}}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="(players, game) in result['games']">
+                            <!-- game -->
+                            <th scope="row"><span class="game"><a :href='result.links[game]' target="_blank">{{game}}</a></span></th>
+                            <!-- displays players ranks-->
+                            <td v-for="player of result.players_found">
+                                <!-- player is rank in the given multi-->
+                                <span v-if="players[player]">
+                                    <span :class="[players[player]['league'], players[player]['first']]">
+                                        <!-- rank -->
+                                        {{players[player]['rank']}} 
+                                        <!-- league-->
+                                        <span v-if="players[player]['league'] !== 'no_league'"> {{players[player]['league']}}</span>
+                                    </span>
+                                </span>
+                                <!-- player is not rank in the given multi-->
+                                <span v-else class="undefined"></span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </span>
+    
+        </div>
+
+
+        <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.16.3/lodash.min.js"></script>
+        <script src="/js/vue.js"></script>
+
+        <!-- usless scripts? 
+            <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+        -->
+
+    </body>
+</html>
+</DOCTYPE>
