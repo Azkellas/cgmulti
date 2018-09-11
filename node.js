@@ -30,9 +30,14 @@ app.use(express.static('./public'))
     console.log('get')
     var queryData = url.parse(req.url, true).query;
     console.log(queryData);
-    parser.compare(queryData.playersQuery).then(function(players_data) {
-        res.send(players_data);
-    });
+    if (queryData.playersQuery === undefined)
+        res.redirect('/');
+    else
+    {
+        parser.compare(queryData.playersQuery).then(function(players_data) {
+            res.send(players_data);
+        });
+    }
 
 })
 
