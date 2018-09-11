@@ -1,15 +1,18 @@
 body {
     height: 100%;
     background-color: #eee;
-}
-body {
     text-align: center;
-} 
+}
+
+[v-cloak]
+{
+    display: none;
+}
 
 .title
 {
     text-shadow: 0 1px 3px rgba(0,0,0,.5);
-
+    padding: 20px;
 }
 
 
@@ -62,8 +65,4 @@ a
 a:hover
 {
     color: #ffffff;
-}
-.title
-{
-    padding: 20px 50px;
 }

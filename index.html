@@ -23,47 +23,49 @@
                 <input type="submit" style="visibility: hidden;" />
             </form>
     
-            <!-- if a request has been made-->
-            <span v-if="!_.isEmpty(result)">
+            <!-- waiting for vue to load -->
+            <div v-cloak>
+                <!-- if a request has been made-->                  
+                <span v-if="!_.isEmpty(result)">
 
-                <!-- if some players were not found -->
-                <span v-if="result.players_not_found.length">
-                    <span v-for="player of result.players_not_found">
-                        Player "{{player}}" could not be found <br />
+                    <!-- if some players were not found -->
+                    <span v-if="result.players_not_found.length">
+                        <span v-for="player of result.players_not_found">
+                            Player "{{player}}" could not be found <br />
+                        </span>
                     </span>
-                </span>
 
-                <!--  if the table is not empty-->
-                <table v-if="result.players_found.length" class="table table-dark table-striped table-bordered table-hover table-condensed table-sm" >
-                    <thead>
-                        <tr>
-                            <th scope="col"></th>
-                            <th v-for="player of result.players_found">{{player}}</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr v-for="(players, game) in result['games']">
-                            <!-- game -->
-                            <th scope="row"><span class="game"><a :href='result.links[game]' target="_blank">{{game}}</a></span></th>
-                            <!-- displays players ranks-->
-                            <td v-for="player of result.players_found">
-                                <!-- player is rank in the given multi-->
-                                <span v-if="players[player]">
-                                    <span :class="[players[player]['league'], players[player]['first']]">
-                                        <!-- rank -->
-                                        {{players[player]['rank']}} 
-                                        <!-- league-->
-                                        <span v-if="players[player]['league'] !== 'no_league'"> {{players[player]['league']}}</span>
+                    <!--  if the table is not empty-->
+                    <table v-if="result.players_found.length" class="table table-dark table-striped table-bordered table-hover table-condensed table-sm" style="width:auto;" align="center" >
+                        <thead>
+                            <tr>
+                                <th scope="col"></th>
+                                <th v-for="player of result.players_found">{{player}}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="(players, game) in result['games']">
+                                <!-- game -->
+                                <th scope="row"><span class="game"><a :href='result.links[game]' target="_blank">{{game}}</a></span></th>
+                                <!-- displays players ranks-->
+                                <td v-for="player of result.players_found">
+                                    <!-- player is rank in the given multi-->
+                                    <span v-if="players[player]">
+                                        <span :class="[players[player]['league'], players[player]['first']]">
+                                            <!-- rank -->
+                                            {{players[player]['rank']}} 
+                                            <!-- league-->
+                                            <span v-if="players[player]['league'] !== 'no_league'"> {{players[player]['league']}}</span>
+                                        </span>
                                     </span>
-                                </span>
-                                <!-- player is not rank in the given multi-->
-                                <span v-else class="undefined"></span>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </span>
-    
+                                    <!-- player is not rank in the given multi-->
+                                    <span v-else class="undefined"></span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </span>
+            </div>
         </div>
 
 
