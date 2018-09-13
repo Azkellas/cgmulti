@@ -27,7 +27,8 @@ app.use(express.static('./public'))
     var queryData = url.parse(req.url, true).query;
     console.log(queryData);
     if (queryData.playersQuery === undefined)
-        res.redirect('/');
+        //res.redirect('/');
+        res.send({});
     else
     {
         queryData.playersQuery = queryData.playersQuery.trim();

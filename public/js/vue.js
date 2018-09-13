@@ -33,7 +33,7 @@ new Vue({
         var vm = this;
         window.location.pathname = '/players';
         window.location.search = '?' + this.playersQuery;
-
+        console.log(window.location)
         axios
         .get('/playersQuery/', {
             params: {
@@ -52,8 +52,10 @@ new Vue({
       if (route.pathname !== '/players')
       {
         vm.result = {};
-        return
+        // return
       }
+      console.log(window.location)
+
       players = route.search.substr(1);
       players = players.replace(/%20/g," ");
       axios
