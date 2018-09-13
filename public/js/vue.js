@@ -31,9 +31,7 @@ new Vue({
   methods: {
     getData: function() {
         var vm = this;
-        window.location.pathname = '/players';
-        window.location.search = '?' + this.playersQuery;
-        console.log(window.location)
+        window.history.replaceState('players', 'CG multi', '/players'+'?'+this.playersQuery)
         axios
         .get('/playersQuery/', {
             params: {
@@ -41,9 +39,7 @@ new Vue({
             }
         })
         .then(function(response) {
-            //console.log(response);
             vm.result = response.data;
-            //console.log(vm.result)
         });
     },
 
@@ -52,12 +48,11 @@ new Vue({
       if (route.pathname !== '/players')
       {
         vm.result = {};
-        // return
+        return;
       }
-      console.log(window.location)
-
       players = route.search.substr(1);
       players = players.replace(/%20/g," ");
+      vm.playersQuery = players;
       axios
       .get('/playersQuery/', {
           params: {
