@@ -35,7 +35,7 @@ new Vue({
         axios
         .get('/playersQuery/', {
             params: {
-                playersQuery: this.playersQuery
+                playersQuery: this.playersQuery.replace(/[\ ]+/g," ")
             }
         })
         .then(function(response) {
