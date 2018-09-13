@@ -52,6 +52,7 @@ new Vue({
       if (route.pathname !== '/players')
       {
         vm.result = {};
+        return
       }
       players = route.search.substr(1);
       players = players.replace(/%20/g," ");
