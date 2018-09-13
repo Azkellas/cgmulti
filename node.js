@@ -13,20 +13,16 @@ var app = express();
 app.use(express.static('./public'))
 
 
-// get with players  (probably ugly as fuck)
 .get('/', urlencodedParser, function(req, res) {
     res.sendFile('index.html', {root: __dirname });
 })
 
-// request with players
-// .post('/players/', urlencodedParser, function(req, res) {
-//     parser.compare(req.body.players).then(function(players_data) {
-//         res.render('cgmulti.ejs', {data: players_data, _: _});
-//     });
-// })
+.get('/players', urlencodedParser, function(req, res) {
+    res.sendFile('index.html', {root: __dirname });
+})
 
 // get with players  (probably ugly as fuck)
-.get('/players/', urlencodedParser, function(req, res) {
+.get('/playersQuery/', urlencodedParser, function(req, res) {
     console.log('get')
     var queryData = url.parse(req.url, true).query;
     console.log(queryData);
