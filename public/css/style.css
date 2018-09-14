@@ -54,7 +54,7 @@ body {
 
 .first
 {
-    font-weight: bold;
+    background-color: rgb(0, 0, 50);
 }
 
 a

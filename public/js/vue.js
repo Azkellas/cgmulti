@@ -68,6 +68,16 @@ new Vue({
     {
         date = moment(date);
         return date.calendar();
+    },
+
+    tdClass: function(player)
+    {
+        if (player === undefined)
+            return '';
+        if (player.first !== '')
+            return 'first';
+        else
+            return '';
     }
   }
 })

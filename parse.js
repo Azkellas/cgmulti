@@ -141,7 +141,8 @@ async function getRanksInMulti (multi, pseudos)
     {
         if (pseudoRemaining == 0)
         {
-            if (bestPlayer !== '')
+            // if there is a best player and we have several players
+            if (bestPlayer !== '' && pseudos.length - pseudoRemaining != 1)
                 result[multi][bestPlayer]['first'] = 'first';
             return result;
         }
@@ -173,7 +174,8 @@ async function getRanksInMulti (multi, pseudos)
             }
         }
     }
-    if (bestPlayer !== '')
+    // if there is a best player and we have several players
+    if (bestPlayer !== '' && pseudos.length - pseudoRemaining != 1)
         result[multi][bestPlayer]['first'] = 'first';
     return result; // player not found
 }

@@ -47,10 +47,10 @@
                                 <!-- game -->
                                 <th scope="row"><span class="game"><a :href='result.links[game]' target="_blank">{{game}}</a></span></th>
                                 <!-- displays players ranks-->
-                                <td v-for="player of result.players_found">
+                                <td v-for="player of result.players_found" :class="tdClass(players[player])">
                                     <!-- player is rank in the given multi-->
                                     <span v-if="players[player]">
-                                        <span :class="[players[player]['league'], players[player]['first']]" v-tooltip="printDate(players[player]['date'])">
+                                        <span :class="players[player]['league']" v-tooltip="printDate(players[player]['date'])">
                                             <!-- rank -->
                                             {{players[player]['rank']}} 
                                             <!-- league-->
