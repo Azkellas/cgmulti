@@ -62,6 +62,12 @@ new Vue({
       .then(function(response) {
           vm.result = response.data;
       });
-  }
+    },
+
+    printDate: function(date)
+    {
+        date = moment(date);
+        return date.calendar();
+    }
   }
 })

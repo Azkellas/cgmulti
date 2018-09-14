@@ -161,7 +161,7 @@ async function getRanksInMulti (multi, pseudos)
                     if (league === '')
                         league = 'no_league';
                     let rank = u['localRank'];
-                    result[multi][realPseudo] = {'rank': rank + get_cardinal(rank), 'league': league, 'first':''};
+                    result[multi][realPseudo] = {'rank': rank + get_cardinal(rank), 'league': league, 'date': u['creationTime'], 'first':''};
                     if (rank_value(result[multi][realPseudo], multi) < minValue)
                     {
                         minValue = rank_value(result[multi][realPseudo], multi);
