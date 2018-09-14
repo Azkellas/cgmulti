@@ -10,6 +10,7 @@ new Vue({
     result: {},
     playersQuery: '',
     route: window.location,
+    locale: window.navigator.userLanguage || window.navigator.language
   },
   
     // ------------
@@ -23,6 +24,12 @@ new Vue({
   // ---------------
   created: function () {
     this.initialData(this.route);
+
+    // get local date format while writing in english
+    moment.locale(this.locale);
+    var data = moment.localeData()._longDateFormat;
+    moment.locale('en-US');
+    moment.localeData()._longDateFormat = data;
   },
 
   // --------------
@@ -68,6 +75,7 @@ new Vue({
     {
         date = moment(date);
         return date.calendar();
+        return date.format('L');
     },
 
     tdClass: function(player)
