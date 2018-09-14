@@ -141,8 +141,9 @@ async function getRanksInMulti (multi, pseudos)
     {
         if (pseudoRemaining == 0)
         {
-            // if there is a best player and we have several players
-            if (bestPlayer !== '' && pseudos.length - pseudoRemaining != 1)
+            // the case where there is a single existing player is handle in vue method tdClass
+            // this is to avoid the case where there is only a player in a multi but multiple overall
+            if (bestPlayer !== '' && pseudos.length > 1)
                 result[multi][bestPlayer]['first'] = 'first';
             return result;
         }
@@ -174,8 +175,10 @@ async function getRanksInMulti (multi, pseudos)
             }
         }
     }
-    // if there is a best player and we have several players
-    if (bestPlayer !== '' && pseudos.length - pseudoRemaining != 1)
+    // the case where there is a single existing player is handle in vue method tdClass
+    // this is to avoid the case where there is only a player in a multi but multiple overall
+    if (bestPlayer !== '' && pseudos.length > 1)
         result[multi][bestPlayer]['first'] = 'first';
-    return result; // player not found
+
+    return result; // some players were not found
 }

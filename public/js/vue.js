@@ -80,6 +80,8 @@ new Vue({
 
     tdClass: function(player)
     {
+        if (this.result.players_found.length < 2)
+            return '';
         if (player === undefined)
             return '';
         if (player.first !== '')
