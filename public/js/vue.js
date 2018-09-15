@@ -1,3 +1,7 @@
+const baseUrl = 'https://www.codingame.com/multiplayer/bot-programming/'
+
+
+
 new Vue({
 	// -------------
 	// APP CONTAINER
@@ -88,6 +92,18 @@ new Vue({
             return 'first';
         else
             return '';
+    },
+
+    // "code-royale" -> "Code Royale"
+    prettify: function (game)
+    {
+        return game.split('-').map(word => word[0].toUpperCase() + word.substr(1)).join(' ');
+    },
+
+    getLink: function (game)
+    {
+        return baseUrl + game + '/'
     }
+
   }
 })

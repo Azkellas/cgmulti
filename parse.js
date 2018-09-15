@@ -7,8 +7,6 @@ var exports = module.exports = {};
 
 const games = ['legends-of-code-magic', 'code-of-kutulu', 'code-royale', 'tic-tac-toe', 'botters-of-the-galaxy', 'code4life', 'mean-max', 'wondev-woman', 'coders-of-the-caribbean',  'ghost-in-the-cell', 'fantastic-bits', 'hypersonic', 'codebusters', 'smash-the-code', 'coders-strike-back', 'back-to-the-code', 'great-escape', 'platinum-rift2', 'platinum-rift', 'poker-chip-race', 'game-of-drone', 'tron-battle']
 
-const baseUrl = 'https://www.codingame.com/multiplayer/bot-programming/'
-
 function onlyUnique(value, index, self) { 
     return self.indexOf(value) === index;
 }
@@ -19,7 +17,6 @@ exports.compare = async function (players)
     results.players_not_found = [];
     results.players_found = [];
     results.games = {};
-    results.links = {}
     players = players.split(' ');
 
     let games_ranks = await Promise.all(games.map(game => getRanksInMulti(game, players)));
@@ -28,12 +25,6 @@ exports.compare = async function (players)
     for (let json of games_ranks)
         for (let game in json)
             results.games[game] = json[game];
-
-    // stores links
-    for (let game of games)
-        results.links[prettify(game)] = baseUrl + game + '/'
-
-
 
     for (let pseudo of players)
     {
@@ -111,20 +102,10 @@ function get_cardinal(value)
     }
 }
 
-// "code-royale" -> "Code Royale"
-function prettify(game)
-{
-    return game.split('-').map(word => word[0].toUpperCase() + word.substr(1)).join(' ');
-}
-
-    
-
-
 async function getRanksInMulti (multi, pseudos)
 {
     let path_file = __dirname + '/leaderboards/' + multi + '.json';
 
-    multi = prettify(multi);
     let readFile = util.promisify(fs.readFile);
     let content = await readFile(path_file);
 

@@ -45,7 +45,7 @@
                         <tbody>
                             <tr v-for="(players, game) in result['games']">
                                 <!-- game -->
-                                <th scope="row"><span class="game"><a :href='result.links[game]' target="_blank">{{game}}</a></span></th>
+                                <th scope="row"><span class="game"><a :href='getLink(game)' target="_blank">{{prettify(game)}}</a></span></th>
                                 <!-- displays players ranks-->
                                 <td v-for="player of result.players_found" :class="tdClass(players[player])">
                                     <!-- player is rank in the given multi-->
