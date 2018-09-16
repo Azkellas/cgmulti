@@ -1,86 +1,31 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <head>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-        <!-- Bootstrap CSS -->
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+      <!-- Bootstrap CSS -->
+      <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 
-        <title>CG multi</title>
-        <link rel="stylesheet" href="/css/style.css" />
-    
-    </head>
+      <title>CG multi</title>
+      <link rel="stylesheet" href="/css/style.css" />
 
+  </head>
+  
     <body>
-        <div id="app" class="container">
-            <div class="title">
-                <h1>CG multi</h1>
-            </div>
-            <!-- {{result}} -->
-            <form action="/players/" method="post" v-on:submit.prevent="getData">
-                <input type="text" v-model="playersQuery" placeholder="player1 player2 player3" id="playersQuery" class="form-control">
-                <input type="submit" style="visibility: hidden;" />
-            </form>
-            <!-- waiting for vue to load -->
-            <div v-cloak>
-                <!-- if a request has been made-->                  
-                <span v-if="!_.isEmpty(result)">
-
-                    <!-- if some players were not found -->
-                    <span v-if="result.players_not_found.length">
-                        <span v-for="player of result.players_not_found">
-                            Player "{{player}}" could not be found <br />
-                        </span>
-                    </span>
-
-                    <!--  if the table is not empty-->
-                    <table v-if="result.players_found.length" class="table table-dark table-striped table-bordered table-hover table-condensed table-sm" style="width:auto;" align="center" >
-                        <thead>
-                            <tr>
-                                <th scope="col"></th>
-                                <th v-for="player of result.players_found">{{player}}</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr v-for="(players, game) in result['games']">
-                                <!-- game -->
-                                <th scope="row"><span class="game"><a :href='getLink(game)' target="_blank">{{prettify(game)}}</a></span></th>
-                                <!-- displays players ranks-->
-                                <td v-for="player of result.players_found" :class="tdClass(players[player])">
-                                    <!-- player is rank in the given multi-->
-                                    <span v-if="players[player]">
-                                        <span :class="players[player]['league']" v-tooltip="printDate(players[player]['date'])">
-                                            <!-- rank -->
-                                            {{players[player]['rank']}} 
-                                            <!-- league-->
-                                            <span v-if="players[player]['league'] !== 'no_league'"> {{players[player]['league']}}</span>
-                                        </span>
-                                    </span>
-                                    <!-- player is not rank in the given multi-->
-                                    <span v-else class="undefined"></span>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </span>
-            </div>
+        <!-- waiting for vue to load -->
+        <div id="app" class="container" v-cloak>
+            <players></players>
         </div>
 
 
-        <script src="https://unpkg.com/axios/dist/axios.min.js"></script>  <!-- axios server requests -->
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.17/vue.min.js"></script> <!-- vue -->
-        <script src="https://unpkg.com/v-tooltip"></script> <!-- vue-tooltip -->
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment-with-locales.min.js"></script> <!-- moment -->
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.16.3/lodash.min.js"></script> <!-- lodash -->
-        <script src="/js/vue.js"></script>
-
-        <!-- usless scripts? 
-            <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
-        -->
-
-    </body>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>  <!-- axios server requests -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.17/vue.min.js"></script> <!-- vue -->
+    <script src="https://unpkg.com/http-vue-loader"></script> <!-- load vue files -->
+    <script src="https://unpkg.com/vue-router@3.0.1/dist/vue-router.min.js"></script> <!-- vue-router -->
+    <script src="https://unpkg.com/v-tooltip"></script> <!-- vue-tooltip -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment-with-locales.min.js"></script> <!-- moment -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.16.3/lodash.min.js"></script> <!-- lodash -->
+    <script src="js/vue.js"></script>
+  </body>
 </html>
-</DOCTYPE>
