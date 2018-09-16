@@ -51,7 +51,7 @@ async function updateGraphDate()
     let content = await readFile(dailyFile);
     let data = JSON.parse(content);
     let today = moment();
-    today = today.add(1, 'days');
+    today = today.subtract(1, 'days');
     today = today.format(dateFormat);
     data[today] = game_counts;
 
