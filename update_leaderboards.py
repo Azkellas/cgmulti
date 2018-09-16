@@ -7,6 +7,8 @@ from datetime import datetime
 import requests
 
 
+dir_path = os.path.dirname(os.path.realpath(__file__))
+
 # updates leaderboards file
 def download_leaderboard(multi):
 	req_t = 'https://www.codingame.com/services/LeaderboardsRemoteService/getFilteredPuzzleLeaderboard'
@@ -19,7 +21,7 @@ def download_leaderboard(multi):
 		return
 
 	try:
-		with open("/var/www/cgmulti/leaderboards/"+multi+".json", "w") as f:
+		with open(dir_path + "/leaderboards/"+multi+".json", "w") as f:
 			f.write(json.dumps(d))
 	except ValueError:
 		print(str(datetime.now()) + ": could not dump json of " + multi + ": " + ValueError)
