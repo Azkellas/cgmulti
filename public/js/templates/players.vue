@@ -1,8 +1,5 @@
 <template>
     <div class="playerRoot">
-        <div class="title">
-            <h1>CG multi</h1>
-        </div>
         <form action="/players/" method="post" v-on:submit.prevent="getData">
             <input type="text" v-model="playersQuery" placeholder="player1 player2 player3" id="playersQuery" class="form-control">
             <input type="submit" style="visibility: hidden;" />

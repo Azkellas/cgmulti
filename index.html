@@ -13,12 +13,20 @@
   </head>
   
   <body>
-    <!-- waiting for vue to load -->
-        <div id="app" class="container" v-cloak>
-            <router-link :to="{path: '/players'}">Players</router-link>
-            <router-link :to="{path: '/statistics'}">Statistics</router-link>
-            <a href="players">Home</a>
-
+      <!-- waiting for vue to load -->
+      <div id="app" class="container" v-cloak>
+            <div class="title">
+                    <h1>CG multi</h1>
+            </div>
+            <ul class="nav justify-content-center">
+                <li class="nav-item">
+                  <router-link class="nav-link" :class="isActiveTab('/players')" :to="{path: '/players'}">Players</router-link>
+                </li>
+                <li class="nav-item">
+                    <router-link class="nav-link" :class="isActiveTab('/statistics')" :to="{path: '/statistics'}">Statistics</router-link>
+                </li>
+              </ul>
+              <br /><br />
             <router-view></router-view>
         </div>
 

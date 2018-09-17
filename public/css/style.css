@@ -57,6 +57,20 @@ body {
     background-color: rgb(0, 0, 50);
 }
 
+.router-link-active
+{
+    font-weight: bold;
+}
+.nav-link
+{
+    color: #333;
+}
+
+.nav-link:hover
+{
+    color: #999;
+}
+
 a
 {
     color: #dddddd;

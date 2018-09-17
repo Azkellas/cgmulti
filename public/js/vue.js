@@ -11,5 +11,18 @@ const router = new VueRouter({
 
 const app = new Vue({
     el: '#app',
-    router
+    router,
+
+    methods: {
+        isActiveTab: function(path) {
+            console.log(this.$route);
+            console.log("$rouge:" + this.$route.path);
+            console.log("path:" + path);
+            console.log(this.$route.path === path);
+            if (this.$route.path === path)
+                return 'active';
+            else
+                return '';
+        }
+    }
 });
