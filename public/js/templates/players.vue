@@ -76,7 +76,7 @@ module.exports = {
   // ---------------
   created: function() {
     // this.$router.push('/players')
-    this.initialData(this.route);
+    this.initialData(this.$route);
 
     // get local date format while writing in english
     moment.locale(this.locale);
@@ -87,9 +87,8 @@ module.exports = {
 
   watch: {
     // whenever question changes, this function will run
-    route: function(newRoute, oldRoute) {
-      console.log("new route");
-      this.initialData(newRoute);
+    '$route': function(newRoute, oldRoute) {
+        this.initialData(newRoute);
     }
   },
 
@@ -119,13 +118,17 @@ module.exports = {
 
     initialData: async function(route) {
       var vm = this;
-      console.log("initdata ! " + route);
-      if (route.pathname !== "/players") {
+      if (route.path !== "/players") {
         vm.result = {};
         return;
       }
-      players = route.search.substr(1);
+      players = route.fullPath.split('?')[1] || "";
       players = players.replace(/%20/g, " ");
+      if (players === "")
+      {
+        vm.result = {};
+        return;
+      }
       vm.playersQuery = players;
       axios
         .get("/playersQuery/", {

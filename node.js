@@ -21,6 +21,10 @@ app.use(express.static('./public'))
     res.sendFile('index.html', {root: __dirname });
 })
 
+.get('/statistics', urlencodedParser, function(req, res) {
+    res.sendFile('index.html', {root: __dirname });
+})
+
 // get with players  (probably ugly as fuck)
 .get('/playersQuery/', urlencodedParser, function(req, res) {
     console.log('get')
