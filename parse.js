@@ -11,6 +11,7 @@ function onlyUnique(value, index, self) {
     return self.indexOf(value) === index;
 }
 
+/* leaderboards analysis */
 exports.compare = async function (players)
 {
     let results = {};
@@ -162,4 +163,33 @@ async function getRanksInMulti (multi, pseudos)
         result[multi][bestPlayer]['first'] = 'first';
 
     return result; // some players were not found
+}
+
+
+
+/* statistics analysis */
+exports.getDailyStats = async function() {
+    let path_file = __dirname + '/statistics/daily.json';
+    let readFile = util.promisify(fs.readFile);
+    let content = await readFile(path_file);
+    let data = JSON.parse(content);
+
+    let result = [];
+    result.dataset = [];
+    for (let game of games)
+    {
+        let gameStats = {};
+        gameStats.name = game;
+        gameStats.data = {};
+        for (let date in data)
+        {
+            if (data[date][game])
+                gameStats.data[date] = data[date][game];
+            else
+                gameStats.data[date] = 0;
+        }
+        result.push(gameStats);
+    }
+    console.log(result);
+    return result;
 }

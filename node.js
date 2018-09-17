@@ -27,7 +27,7 @@ app.use(express.static('./public'))
 
 // get with players  (probably ugly as fuck)
 .get('/playersQuery/', urlencodedParser, function(req, res) {
-    console.log('get')
+    console.log('playersQuery')
     var queryData = url.parse(req.url, true).query;
     console.log(queryData);
     if (queryData.playersQuery === undefined)
@@ -41,6 +41,14 @@ app.use(express.static('./public'))
         });
     }
 
+})
+
+// get with players  (probably ugly as fuck)
+.get('/statisticsQuery/', urlencodedParser, function(req, res) {
+    console.log('statisticsQuery')
+    parser.getDailyStats().then(function(result) {
+            res.send(result);
+    });
 })
 
 // redirection

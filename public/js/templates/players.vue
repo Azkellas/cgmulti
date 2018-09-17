@@ -58,7 +58,6 @@ module.exports = {
       // result: {'players_found':['Azke'],'players_not_found':[], 'games':{'coc':{'Azke':{'rank':'1','first':'','league':'Legend'}}}},
       result: {},
       playersQuery: "",
-      route: window.location,
       locale: window.navigator.userLanguage || window.navigator.language
     };
   },
