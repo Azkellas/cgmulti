@@ -46,12 +46,26 @@ async function updateGraphDate()
     let today = moment();
     today = today.subtract(1, 'days');
     today = today.format(dateFormat);
-    
+
+    // new file
+    if (data.dates === undefined)
+        data.dates = [];
+    if (data.games === undefined)
+        data.games = {};
+
     data.dates.push(today);
     
     for (let json of game_counts_array)
-        for (let game in json)
+    {
+       for (let game in json)
+        {
+            // new game
+            if (data.games[game] === undefined)
+                data.games[game] = {};
+    
             data.games[game][today] = json[game];
+        }
+    }
 
     fs.writeFile(dailyFile, JSON.stringify(data), (err) => {  
         // throws an error, you could also catch it here
