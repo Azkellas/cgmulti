@@ -14,7 +14,8 @@ app.use(express.static('./public'))
 
 
 .get('/', urlencodedParser, function(req, res) {
-    res.sendFile('index.html', {root: __dirname });
+    res.redirect('/players');
+    // res.sendFile('index.html', {root: __dirname });
 })
 
 .get('/players', urlencodedParser, function(req, res) {

@@ -16,7 +16,6 @@ async function computeNewSubmits(game)
     // console.log(data);
     let today = moment();
     let yesterday = today.clone().subtract(1, 'days');
-    yesterday = yesterday.subtract(1, 'days');
     let users = data['success']['users'];
    
     let count = 0;
@@ -41,19 +40,18 @@ async function computeNewSubmits(game)
 async function updateGraphDate()
 {
     let game_counts_array = await Promise.all(games.map(game => computeNewSubmits(game)));
-    let game_counts = {};
-
-    for (let json of game_counts_array)
-        for (let game in json)
-            game_counts[game] = json[game];
-
 
     let content = await readFile(dailyFile);
     let data = JSON.parse(content);
     let today = moment();
     today = today.subtract(1, 'days');
     today = today.format(dateFormat);
-    data[today] = game_counts;
+    
+    data.dates.push(today);
+    
+    for (let json of game_counts_array)
+        for (let game in json)
+            data[game][today] = json[game];
 
     fs.writeFile(dailyFile, JSON.stringify(data), (err) => {  
         // throws an error, you could also catch it here
