@@ -53,114 +53,106 @@
 const baseUrl = 'https://www.codingame.com/multiplayer/bot-programming/';
 
 module.exports = {
-  data: function() {
-    return {
-      // result: {'players_found':['Azke'],'players_not_found':[], 'games':{'coc':{'Azke':{'rank':'1','first':'','league':'Legend'}}}},
-      result: {},
-      playersQuery: "",
-      locale: window.navigator.userLanguage || window.navigator.language
-    };
-  },
+    data: function() {
+        return {
+            result: {},
+            playersQuery: "",
+            locale: window.navigator.userLanguage || window.navigator.language
+        };
+    },
 
-  // ------------
-  // DERIVED DATA
-  // ------------
-  computed: {},
+    created: function() {
+        this.initialData(this.$route);
 
-  // ---------------
-  // LIFECYCLE HOOKS
-  // ---------------
-  created: function() {
-    // this.$router.push('/players')
-    this.initialData(this.$route);
+        // get local date format while writing in english
+        moment.locale(this.locale);
+        var data = moment.localeData()._longDateFormat;
+        moment.locale("en-US");
+        moment.localeData()._longDateFormat = data;
+    },
 
-    // get local date format while writing in english
-    moment.locale(this.locale);
-    var data = moment.localeData()._longDateFormat;
-    moment.locale("en-US");
-    moment.localeData()._longDateFormat = data;
-  },
+    watch: {
+        // whenever question changes, this function will run
+        '$route': function(newRoute, oldRoute) {
+            this.initialData(newRoute);
+        }
+    },
 
-  watch: {
-    // whenever question changes, this function will run
-    '$route': function(newRoute, oldRoute) {
-        this.initialData(newRoute);
+    methods: {
+        getData: function() {
+            var vm = this;
+            router.push({ path: '/players', query: {'p':vm.playersQuery} });
+
+            axios
+            .get("/playersQuery/", {
+                params: {
+                    playersQuery: this.playersQuery.replace(/[\ ]+/g, " ")
+                }
+            })
+            .then(function(response) {
+                vm.result = response.data;
+            });
+        },
+
+        initialData: async function(route) {
+            var vm = this;
+            if (route.path !== "/players") {
+                vm.result = {};
+                return;
+            }
+            if (!route.query || !route.query.p)
+            {
+                vm.playersQuery = '';
+                vm.result = {};
+                return;
+            }
+            let players = route.query.p;
+            players = players.replace(/%20/g, " ");
+
+            if (players === "")
+            {
+                vm.result = {};
+                return;
+            }
+            vm.playersQuery = players;
+            axios
+            .get("/playersQuery/", {
+                params: {
+                    playersQuery: players
+                }
+            })
+            .then(function(response) {
+                vm.result = response.data;
+            });
+        },
+
+        printDate: function(date) {
+            date = moment(date);
+            return date.calendar();
+        },
+
+        tdClass: function(player) {
+            if (this.result.players_found.length < 2)
+                return "";
+            if (player === undefined)
+                return "";
+            if (player.first !== "")
+                return "first";
+            return "";
+        },
+
+        // "code-royale" -> "Code Royale"
+        prettify: function(game) {
+            return game
+            .split("-")
+            .map(word => word[0].toUpperCase() + word.substr(1))
+            .join(" ");
+        },
+
+        getLink: function(game) {
+            return baseUrl + game + "/";
+        }
     }
-  },
-
-  // --------------
-  // SCOPED METHODS
-  // --------------
-  methods: {
-    getData: function() {
-      var vm = this;
-      window.history.pushState(
-        "players",
-        "CG multi",
-        "/players" + "?" + this.playersQuery
-      );
-      //this.$router.push('/players')
-
-      axios
-        .get("/playersQuery/", {
-          params: {
-            playersQuery: this.playersQuery.replace(/[\ ]+/g, " ")
-          }
-        })
-        .then(function(response) {
-          vm.result = response.data;
-        });
-    },
-
-    initialData: async function(route) {
-      var vm = this;
-      if (route.path !== "/players") {
-        vm.result = {};
-        return;
-      }
-      players = route.fullPath.split('?')[1] || "";
-      players = players.replace(/%20/g, " ");
-      if (players === "")
-      {
-        vm.result = {};
-        return;
-      }
-      vm.playersQuery = players;
-      axios
-        .get("/playersQuery/", {
-          params: {
-            playersQuery: players
-          }
-        })
-        .then(function(response) {
-          vm.result = response.data;
-        });
-    },
-
-    printDate: function(date) {
-      date = moment(date);
-      return date.calendar();
-    },
-
-    tdClass: function(player) {
-      if (this.result.players_found.length < 2) return "";
-      if (player === undefined) return "";
-      if (player.first !== "") return "first";
-      return "";
-    },
-
-    // "code-royale" -> "Code Royale"
-    prettify: function(game) {
-      return game
-        .split("-")
-        .map(word => word[0].toUpperCase() + word.substr(1))
-        .join(" ");
-    },
-
-    getLink: function(game) {
-      return baseUrl + game + "/";
-    }
-  }
 };
 </script>
 

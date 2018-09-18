@@ -19,8 +19,9 @@ const app = new Vue({
                 return 'active';
             else
                 return '';
-        }
-    }
+        },
+    },
+
 });
 
 
