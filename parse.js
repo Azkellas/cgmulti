@@ -173,21 +173,5 @@ exports.getDailyStats = async function() {
     let readFile = util.promisify(fs.readFile);
     let content = await readFile(path_file);
     let data = JSON.parse(content);
-    let result = [];
-    result.dataset = [];
-    for (let game of games)
-    {
-        let gameStats = {};
-        gameStats.name = game;
-        gameStats.data = {};
-        for (let date of data.dates)
-        {
-            if (data[game][date])
-                gameStats.data[date] = data[game][date];
-            else
-                gameStats.data[date] = 0;
-        }
-        result.push(gameStats);
-    }
-    return result;
+    return data;
 }

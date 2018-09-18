@@ -51,7 +51,7 @@ async function updateGraphDate()
     
     for (let json of game_counts_array)
         for (let game in json)
-            data[game][today] = json[game];
+            data.games[game][today] = json[game];
 
     fs.writeFile(dailyFile, JSON.stringify(data), (err) => {  
         // throws an error, you could also catch it here
