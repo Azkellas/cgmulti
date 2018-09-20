@@ -1,13 +1,13 @@
 <template>
     <div id="statistics">
-        <line-chart id="dailyChart" :data="graphData" height="700px" :messages="{empty: 'Failed to load data. Try again or contact Azkellas.'}"></line-chart>
+        <line-chart id="dailyChart" :data="graphData" xtitle="date" ytitle="new submissions in the top1000" height="700px" :messages="{empty: 'Failed to load data. Try again or contact Azkellas.'}"></line-chart>
 
         <br /><br /><br />
         <table class="table table-dark table-striped table-bordered table-hover table-condensed table-sm" style="width:auto;" align="center">
             <thead>
                 <tr>
                     <th scope="col"></th>
-                    <th v-for="date in dailyData.dates" :key="date">{{date}}</th>
+                    <th v-for="date in dailyData.dates" :key="date"><div><span>{{printDate(date)}}</span></div></th>
                 </tr>
             </thead>
             <tbody>
@@ -29,13 +29,15 @@
 
 <script>
 const baseUrl = 'https://www.codingame.com/multiplayer/bot-programming/';
+const dateFormat = 'YYYY/MM/DD';
 
 module.exports = {
     data: function() {
         return {
             dailyData: {},
             graphData: {},
-            locale: window.navigator.userLanguage || window.navigator.language
+            locale: window.navigator.userLanguage || window.navigator.language,
+            noYearLocaleFormat : ''
         };
     },
 
@@ -48,6 +50,11 @@ module.exports = {
         var data = moment.localeData()._longDateFormat;
         moment.locale("en-US");
         moment.localeData()._longDateFormat = data;
+
+        noYearLocaleFormat = moment
+        .localeData()
+        .longDateFormat('L')
+        .replace(/[,\/-/.]*\s*Y+\s*/, '');
     },
 
     methods: {
@@ -62,8 +69,8 @@ module.exports = {
         },
 
         printDate: function(date) {
-            date = moment(date);
-            return date.calendar();
+            date = moment(date, dateFormat);
+            return date.format(noYearLocaleFormat);
         },
 
 
