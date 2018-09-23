@@ -7,15 +7,16 @@ const games = ['legends-of-code-magic', 'code-of-kutulu', 'code-royale', 'tic-ta
 
 const dateFormat = 'YYYY/MM/DD';
 
-const dailyFile = __dirname + '/statistics/daily.json';
+const dailyFile = __dirname + '/statistics/weekly.json';
 
 async function computeNewSubmits(game)
 {
     let content = await readFile(__dirname + '/leaderboards/' + game + '.json');
     let data = JSON.parse(content);
     // console.log(data);
+    moment.locale('fr'); // monday to sunday
     let today = moment();
-    let yesterday = today.clone().subtract(1, 'day');
+    let date = today.clone().subtract(1, 'day');
     let users = data['success']['users'];
    
     let count = 0;
@@ -24,7 +25,7 @@ async function computeNewSubmits(game)
         // console.log(u)
         if (u['pseudo'])
         {
-            if (yesterday.isSame(moment(u['creationTime']), 'day'))
+            if (date.isSame(moment(u['creationTime']), 'week'))
             {
                 //console.log(u['pseudo']);
                 count++;
@@ -44,7 +45,7 @@ async function updateGraphDate()
     let content = await readFile(dailyFile);
     let data = JSON.parse(content);
     let today = moment();
-    today = today.subtract(1, 'days');
+    today = today.subtract(7, 'days'); // the monday before
     today = today.format(dateFormat);
 
     // new file
