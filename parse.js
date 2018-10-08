@@ -168,8 +168,12 @@ async function getRanksInMulti (multi, pseudos)
 
 
 /* statistics analysis */
-exports.getDailyStats = async function() {
-    let path_file = __dirname + '/statistics/daily.json';
+exports.getStats = async function(type) {
+    let path_file = __dirname + '/statistics/';
+    if (type === 'daily')
+        path_file += 'daily.json';
+    if (type === 'weekly')
+        path_file += 'weekly.json';
     let readFile = util.promisify(fs.readFile);
     let content = await readFile(path_file);
     let data = JSON.parse(content);

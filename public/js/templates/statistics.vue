@@ -1,5 +1,14 @@
 <template>
     <div id="statistics">
+        <ul class="nav justify-content-center">
+            <li class="nav-item">
+                <a class="nav-link" :class="isCurrentFreq('daily')" v-on:click.prevent="newFrequency('daily')" style="cursor: pointer;">Daily</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" :class="isCurrentFreq('weekly')" v-on:click.prevent="newFrequency('weekly')" style="cursor: pointer;">Weekly</a>
+            </li>
+        </ul>
+
         <line-chart id="dailyChart" :data="graphData" xtitle="date" ytitle="new submissions in the top1000" height="700px" :messages="{empty: 'Failed to load data. Try again or contact Azkellas.'}"></line-chart>
 
         <br /><br /><br />
@@ -7,16 +16,16 @@
             <thead>
                 <tr>
                     <th scope="col"></th>
-                    <th v-for="date in dailyData.dates" :key="date"><div><span>{{printDate(date)}}</span></div></th>
+                    <th v-for="date in stats.dates" :key="date"><div><span>{{printDate(date)}}</span></div></th>
                 </tr>
             </thead>
             <tbody>
-                <tr v-for="(counts, game) in dailyData.games" :key="game">
+                <tr v-for="(counts, game) in stats.games" :key="game">
                     <!-- game -->
                     <th scope="row"><span class="game"><a :href='getLink(game)' target="_blank">{{prettify(game)}}</a></span></th>
                     <!-- displays players ranks-->
-                    <td v-for="date of dailyData.dates" :key="date">
-                        {{dailyData.games[game][date]}}
+                    <td v-for="date of stats.dates" :key="date">
+                        {{stats.games[game][date]}}
                     </td>
                 </tr>
             </tbody>
@@ -34,16 +43,20 @@ const dateFormat = 'YYYY/MM/DD';
 module.exports = {
     data: function() {
         return {
-            dailyData: {},
+            stats: {},
             graphData: {},
             locale: window.navigator.userLanguage || window.navigator.language,
             noYearLocaleFormat : ''
         };
     },
 
+    props: [
+        'frequency'
+    ],
+
     mounted: function() {
         // this.$router.push('/players')
-        this.getDailyStats();
+        this.getStats();
 
         // get local date format while writing in english
         moment.locale(this.locale);
@@ -58,13 +71,28 @@ module.exports = {
     },
 
     methods: {
-        getDailyStats: function() {
-            var vm = this;
+        isCurrentFreq: function(freq) {
+            if (freq === this.frequency)
+                return 'router-link-active';  // little cheat to bold it
+            else
+                return '';
+        },
 
+        newFrequency: function(newF) {
+            this.frequency = newF;
+            this.getStats();
+        },
+
+        getStats: function() {
+            var vm = this;
             axios
-            .get("/statisticsQuery/", {}).then(function(response) {
-                vm.dailyData = response.data;
-                vm.computeGraph(vm.dailyData);
+            .get("/statisticsQuery/", {
+                params: {
+                    frequency: this.frequency
+                }
+            }).then(function(response) {
+                vm.stats = response.data;
+                vm.computeGraph();
             });
         },
 
@@ -82,7 +110,8 @@ module.exports = {
                 .join(" ");
         },
 
-        computeGraph: function(data) {
+        computeGraph: function() {
+            let data = this.stats;
             let result = [];
             result.dataset = [];
             for (let game in data.games)

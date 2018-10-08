@@ -1,5 +1,6 @@
 <template>
     <div class="playerRoot">
+        <br /><br />
         <form action="/players/" method="post" v-on:submit.prevent="getData">
             <input type="text" v-model="playersQuery" placeholder="player1 player2 player3" id="playersQuery" class="form-control">
             <input type="submit" style="visibility: hidden;" />
@@ -61,9 +62,9 @@ module.exports = {
         };
     },
 
+
     created: function() {
         this.initialData(this.$route);
-
         // get local date format while writing in english
         moment.locale(this.locale);
         var data = moment.localeData()._longDateFormat;

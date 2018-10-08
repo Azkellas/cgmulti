@@ -5,7 +5,7 @@ const router = new VueRouter({
     mode: 'history',
     routes: [
         {path: '/players',    component: Players},
-        {path: '/statistics', component: Statistics}
+        {path: '/statistics', component: Statistics, props: {frequency: 'weekly'}}
     ]
 });
 
@@ -15,7 +15,7 @@ const app = new Vue({
 
     methods: {
         isActiveTab: function(path) {
-            if (this.$route.path === path)
+            if (this.$route.path.indexOf(path) !== -1)
                 return 'active';
             else
                 return '';

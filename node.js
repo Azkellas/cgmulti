@@ -46,7 +46,8 @@ app.use(express.static('./public'))
 
 // get with players  (probably ugly as fuck)
 .get('/statisticsQuery/', urlencodedParser, function(req, res) {
-    parser.getDailyStats().then(function(result) {
+    var queryData = url.parse(req.url, true).query;
+    parser.getStats(queryData.frequency).then(function(result) {
         res.send(result);
     });
 })
