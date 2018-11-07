@@ -9,10 +9,10 @@
             </li>
         </ul>
 
-        <line-chart id="dailyChart" :data="graphData" xtitle="date" ytitle="new submissions in the top1000" height="700px" :messages="{empty: 'Failed to load data. Try again or contact Azkellas.'}"></line-chart>
+        <line-chart class="justify-content-center" id="dailyChart" :data="graphData" xtitle="date" ytitle="new submissions in the top1000" height="700px" :messages="{empty: 'Failed to load data. Try again or contact Azkellas.'}"></line-chart>
 
         <br /><br /><br />
-        <table class="table table-dark table-striped table-bordered table-hover table-condensed table-sm" style="width:auto;" align="center">
+        <table class="justify-content-center table table-dark table-striped table-bordered table-hover table-condensed table-sm" style="width: max-content;" align="center">
             <thead>
                 <tr>
                     <th scope="col"></th>
@@ -132,7 +132,10 @@ module.exports = {
         },
 
         getLink: function(game) {
-            return baseUrl + game + "/";
+            // Game Of Drones has API ref game-of-drone and url path game-of-drones
+            const gamePath = game + ((game === 'game-of-drone') ? 's' : '');
+            return baseUrl + gamePath + "/";
+
         }
 
     }

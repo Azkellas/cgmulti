@@ -67,6 +67,15 @@ async function updateGraphDate()
         }
     }
 
+    // erase too old dates
+    while (data.dates.length > 21)
+    {
+        const oldDate = data.dates[0];
+        data.dates.splice(0, 1);
+        for (const game in data.games)
+            delete data.games[game][oldDate];
+    }
+
     fs.writeFile(dailyFile, JSON.stringify(data), (err) => {  
         // throws an error, you could also catch it here
         if (err) throw err;
