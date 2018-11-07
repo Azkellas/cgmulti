@@ -132,7 +132,10 @@ module.exports = {
         },
 
         getLink: function(game) {
-            return baseUrl + game + "/";
+            // Game Of Drones has API ref game-of-drone and url path game-of-drones
+            const gamePath = game + ((game === 'game-of-drone') ? 's' : '');
+            return baseUrl + gamePath + "/";
+
         }
 
     }
