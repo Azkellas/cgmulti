@@ -1,0 +1,11 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.9~svn20110310	//
+dir_path	../update_leaderboards.py	/^dir_path = os.path.dirname(os.path.realpath(__file__))$/;"	kind:variable	line:10
+download_leaderboard	../update_leaderboards.py	/^def download_leaderboard(multi):$/;"	kind:function	line:13
+games	../update_leaderboards.py	/^	games = ["legends-of-code-magic", "code-of-kutulu", "code-royale", "tic-tac-toe", "botters-of-the-galaxy", "code4life", "mean-max", "wondev-woman", "coders-of-the-caribbean",  "ghost-in-the-cell", "fantastic-bits", "hypersonic", "codebusters", "smash-the-code", "coders-strike-back", "back-to-the-code", "great-escape", "platinum-rift2", "platinum-rift", "poker-chip-race", "game-of-drone", "tron-battle"]$/;"	kind:variable	line:32
+path_file	../update_leaderboards.py	/^		path_file = 'leaderboards\/' + game + '.json'$/;"	kind:variable	line:34
+update_leaderboards.py	../update_leaderboards.py	1;"	kind:file	line:1
