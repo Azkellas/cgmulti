@@ -1,11 +1,11 @@
-"use strict";
+'use strict';
 
 var util = require('util');
 const fs = require('fs');
 
 var exports = module.exports = {};
 
-const games = ['xmas-rush', 'legends-of-code-magic', 'code-of-kutulu', 'code-royale', 'tic-tac-toe', 'botters-of-the-galaxy', 'code4life', 'mean-max', 'wondev-woman', 'coders-of-the-caribbean',  'ghost-in-the-cell', 'fantastic-bits', 'hypersonic', 'codebusters', 'smash-the-code', 'coders-strike-back', 'back-to-the-code', 'great-escape', 'platinum-rift2', 'platinum-rift', 'poker-chip-race', 'game-of-drone', 'tron-battle'];
+const games = ['a-code-of-ice-and-fire', 'code-a-la-mode', 'cultist-wars', 'bandas', 'bit-runner-2048', 'yavalath', 'langton-s-ant', 'checkers', 'vindinium', 'legends-of-code-magic', 'code-of-kutulu', 'code-royale', 'tic-tac-toe', 'botters-of-the-galaxy', 'code4life', 'mean-max', 'wondev-woman', 'coders-of-the-caribbean',  'ghost-in-the-cell', 'fantastic-bits', 'hypersonic', 'codebusters', 'smash-the-code', 'coders-strike-back', 'back-to-the-code', 'great-escape', 'platinum-rift2', 'platinum-rift', 'poker-chip-race', 'game-of-drone', 'tron-battle', 'xmas-rush'];
 
 function onlyUnique(value, index, self) { 
     return self.indexOf(value) === index;
@@ -89,14 +89,15 @@ function get_league(division_index, division_count)
 
 function get_cardinal(value)
 {
-    let digit = value.toString().slice(-1);
+    let digit = value % 10;
+    let tens = (value % 100 - value % 10) / 10;
     switch(digit)
     {
-        case '1':
+        case 1:
             return 'st';
-        case '2':
-            return 'nd';
-        case '3':
+        case 2:
+            return tens != 1 ? 'nd' : 'th';
+        case 3:
             return 'rd';
         default:
             return 'th';
@@ -140,11 +141,21 @@ async function getRanksInMulti (multi, pseudos)
                 {
                     let realPseudo = u['pseudo'];
                     let league = '';
-                    if (u['league'])
+                    let isCommunity = false;
+                    if (u['league']) {
                         league = get_league(u['league']['divisionIndex'], u['league']['divisionCount']);
+                        if (u['league']['divisionOffset']) {
+                            // this is a community puzzle: there is only wood leagues, we consider no league at all
+                            league = 'no_league';
+                            isCommunity = true;
+                        }
+                    }
                     if (league === '')
                         league = 'no_league';
-                    let rank = u['localRank'];
+                    
+                    // if community, we take global rank since there are only wood leagues, else we take league rank
+                    let rank = u[isCommunity ? 'rank' : 'localRank'];
+
                     result[multi][realPseudo] = {'rank': rank + get_cardinal(rank), 'league': league, 'date': u['creationTime'], 'first':''};
                     if (rank_value(result[multi][realPseudo], multi) < minValue)
                     {

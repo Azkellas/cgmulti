@@ -29,7 +29,7 @@ def download_leaderboard(multi):
 
 
 if __name__ == "__main__":
-	games = ["legends-of-code-magic", "code-of-kutulu", "code-royale", "tic-tac-toe", "botters-of-the-galaxy", "code4life", "mean-max", "wondev-woman", "coders-of-the-caribbean",  "ghost-in-the-cell", "fantastic-bits", "hypersonic", "codebusters", "smash-the-code", "coders-strike-back", "back-to-the-code", "great-escape", "platinum-rift2", "platinum-rift", "poker-chip-race", "game-of-drone", "tron-battle", "xmas-rush"]
+	games = ["a-code-of-ice-and-fire", "code-a-la-mode", "cultist-wars", "bandas", "bit-runner-2048", "yavalath", "langton-s-ant", "checkers", "vindinium", "legends-of-code-magic", "code-of-kutulu", "code-royale", "tic-tac-toe", "botters-of-the-galaxy", "code4life", "mean-max", "wondev-woman", "coders-of-the-caribbean",  "ghost-in-the-cell", "fantastic-bits", "hypersonic", "codebusters", "smash-the-code", "coders-strike-back", "back-to-the-code", "great-escape", "platinum-rift2", "platinum-rift", "poker-chip-race", "game-of-drone", "tron-battle", "xmas-rush"]
 	for game in games:
 		path_file = 'leaderboards/' + game + '.json'
 
