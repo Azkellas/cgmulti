@@ -1,181 +1,219 @@
 body {
-    height: 100%;
+    height: 100vh;
     background-color: #eee;
     text-align: center;
+    margin: 0;
 }
 
-[v-cloak]
-{
+[v-cloak] {
     display: none;
 }
 
-.title
-{
-    text-shadow: 0 1px 3px rgba(0,0,0,.5);
+.title {
+    text-shadow: 0 1px 3px rgba(0, 0, 0, .5);
     padding: 20px;
+    padding-top: 5vmax;
 }
 
-.game
-{
+.game {
     font-weight: bold;
 }
 
-.Legend
-{
+.Legend {
     color: #fc3030;
 }
 
-.Gold
-{
+.Gold {
     color: #f3d31e;
 }
 
-.Silver
-{
+.Silver {
     color: #d4d4d4;
 }
 
-.Bronze
-{
+.Bronze {
     color: #dd964e;
 }
 
-.Wood
-{
+.Wood {
     color: #68d668;
 }
 
-
-.no_league
-{
+.no_league {
     color: #ccb1ff
 }
 
-.first
-{
+.first {
     background-color: rgb(0, 0, 50);
 }
 
-.router-link-active
-{
+.router-link-active {
     font-weight: bold;
 }
-.nav-link
-{
+
+.nav-link {
     color: #333;
 }
 
-.nav-link:hover
-{
+.nav-link:hover {
     color: #999;
 }
 
-a
-{
+a {
     color: #dddddd;
 }
 
-a:hover
-{
+a:hover {
     color: #ffffff;
 }
 
 
 /* tooltips */
+
 body {
     font-family: sans-serif;
     margin: 42px;
-  }
-  
+}
+
 .tooltip {
-display: block !important;
-z-index: 10000;
+    display: block !important;
+    z-index: 10000;
 }
 
 .tooltip .tooltip-inner {
-background: black;
-color: white;
-border-radius: 16px;
-padding: 5px 10px 4px;
+    background: black;
+    color: white;
+    border-radius: 16px;
+    padding: 5px 10px 4px;
 }
 
 .tooltip .tooltip-arrow {
-width: 0;
-height: 0;
-border-style: solid;
-position: absolute;
-margin: 5px;
-border-color: black;
+    width: 0;
+    height: 0;
+    border-style: solid;
+    position: absolute;
+    margin: 5px;
+    border-color: black;
 }
 
 .tooltip[x-placement^="top"] {
-margin-bottom: 5px;
+    margin-bottom: 5px;
 }
 
 .tooltip[x-placement^="top"] .tooltip-arrow {
-border-width: 5px 5px 0 5px;
-border-left-color: transparent !important;
-border-right-color: transparent !important;
-border-bottom-color: transparent !important;
-bottom: -5px;
-left: calc(50% - 5px);
-margin-top: 0;
-margin-bottom: 0;
+    border-width: 5px 5px 0 5px;
+    border-left-color: transparent !important;
+    border-right-color: transparent !important;
+    border-bottom-color: transparent !important;
+    bottom: -5px;
+    left: calc(50% - 5px);
+    margin-top: 0;
+    margin-bottom: 0;
 }
 
 .tooltip[x-placement^="bottom"] {
-margin-top: 5px;
+    margin-top: 5px;
 }
 
 .tooltip[x-placement^="bottom"] .tooltip-arrow {
-border-width: 0 5px 5px 5px;
-border-left-color: transparent !important;
-border-right-color: transparent !important;
-border-top-color: transparent !important;
-top: -5px;
-left: calc(50% - 5px);
-margin-top: 0;
-margin-bottom: 0;
+    border-width: 0 5px 5px 5px;
+    border-left-color: transparent !important;
+    border-right-color: transparent !important;
+    border-top-color: transparent !important;
+    top: -5px;
+    left: calc(50% - 5px);
+    margin-top: 0;
+    margin-bottom: 0;
 }
 
 .tooltip[x-placement^="right"] {
-margin-left: 5px;
+    margin-left: 5px;
 }
 
 .tooltip[x-placement^="right"] .tooltip-arrow {
-border-width: 5px 5px 5px 0;
-border-left-color: transparent !important;
-border-top-color: transparent !important;
-border-bottom-color: transparent !important;
-left: -5px;
-top: calc(50% - 5px);
-margin-left: 0;
-margin-right: 0;
+    border-width: 5px 5px 5px 0;
+    border-left-color: transparent !important;
+    border-top-color: transparent !important;
+    border-bottom-color: transparent !important;
+    left: -5px;
+    top: calc(50% - 5px);
+    margin-left: 0;
+    margin-right: 0;
 }
 
 .tooltip[x-placement^="left"] {
-margin-right: 5px;
+    margin-right: 5px;
 }
 
 .tooltip[x-placement^="left"] .tooltip-arrow {
-border-width: 5px 0 5px 5px;
-border-top-color: transparent !important;
-border-right-color: transparent !important;
-border-bottom-color: transparent !important;
-right: -5px;
-top: calc(50% - 5px);
-margin-left: 0;
-margin-right: 0;
+    border-width: 5px 0 5px 5px;
+    border-top-color: transparent !important;
+    border-right-color: transparent !important;
+    border-bottom-color: transparent !important;
+    right: -5px;
+    top: calc(50% - 5px);
+    margin-left: 0;
+    margin-right: 0;
 }
 
 .tooltip[aria-hidden='true'] {
-visibility: hidden;
-opacity: 0;
-transition: opacity .15s, visibility .15s;
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity .15s, visibility .15s;
 }
 
 .tooltip[aria-hidden='false'] {
-visibility: visible;
-opacity: 1;
-transition: opacity .15s;
+    visibility: visible;
+    opacity: 1;
+    transition: opacity .15s;
+}
+
+
+/* New changes */
+
+#contestant {
+    overflow: auto;
+    margin-right: 1%;
+    margin-left: 1%;
+    margin-bottom: 5%;
+}
+
+.container {
+    width: 100vw;
+}
+
+
+/* width */
+
+#contestant::-webkit-scrollbar {
+    width: 1.3vmin;
+    height: 1.3vmin;
+    padding-right: 1%;
+}
+
+
+/* Track */
+
+#contestant::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 5px grey;
+    border-radius: 10px;
+}
+
+
+/* Handle */
+
+#contestant::-webkit-scrollbar-thumb {
+    background: #212529;
+    border-radius: 8px;
+}
+
+
+/* Handle on hover */
+
+#contestant::-webkit-scrollbar-thumb:hover {
+    background: #676f76;
+}
+
+#contestant::-webkit-scrollbar-corner {
+    margin: 20%
 }
