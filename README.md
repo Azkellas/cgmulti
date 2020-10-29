@@ -17,6 +17,8 @@ Feel free to review, comment or improve the code.
 
 - Run `node node.js` for the website (accessed at `localhost:8080`).
 
+</br>
+
 ## Updating data
 
 - Run `update_leaderboards.py` to fetch the latest leaderboards.

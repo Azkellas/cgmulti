@@ -78,11 +78,6 @@ a:hover {
 
 /* tooltips */
 
-body {
-    font-family: sans-serif;
-    margin: 42px;
-}
-
 .tooltip {
     display: block !important;
     z-index: 10000;
