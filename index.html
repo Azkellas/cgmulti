@@ -1,54 +1,61 @@
 <!doctype html>
 <html lang="en">
-  <head>
-      <meta charset="utf-8">
-      <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-      <meta name="author" content="azke" />
-      <meta name="keywords" content="codingame" />
-      <meta name="keywords" content="multitool" />
-      <meta name="keywords" content="statistics" />
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="author" content="azke" />
+        <meta name="keywords" content="codingame" />
+        <meta name="keywords" content="multitool" />
+        <meta name="keywords" content="statistics" />
 
-      <link rel="icon" href="/icon/cg-multi.ico">
-      <meta property="og:image" content="/icon/cg-multi.png">
-      <meta property="og:url" content="https://cgmulti.azke.fr/">
+        <link rel="icon" href="/icon/cg-multi.ico">
+        <meta property="og:image" content="/icon/cg-multi.png">
+        <meta property="og:url" content="https://cgmulti.azke.fr/">
 
-      <!-- Bootstrap CSS -->
-      <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+        <!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"    integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 
-      <title>CG multi</title>
-      <link rel="stylesheet" href="/css/style.css" />
-
-  </head>
+        <title>CG multi</title>
+        <link rel="stylesheet" href="/css/style.css" />
+    </head>
   
-  <body>
-      <!-- waiting for vue to load -->
-      <div id="app" class="container" v-cloak>
+    <body>
+        <div class="other_tools">
+            <a href="http://cgstats.magusgeek.com/" target="_blank">CG Stats</a> -
+            <a href="http://apps.rezonux.com/codingame/" target="_blank">CG Points</a> - 
+            <a href="https://dbdr.github.io/cg/" target="_blank">CG Leadergraph</a> -
+            <a href="https://chadok.info/codingame/" target="_blank">XP leaderboard / Puzzles list</a>              
+        </div>
+
+        <!-- waiting for vue to load -->
+        <div id="app" class="container" v-cloak>
             <div class="title">
-                    <h1>CG multi</h1>
+                <h1>CG multi</h1>
             </div>
+            <br/>
             <ul class="nav justify-content-center">
                 <li class="nav-item">
-                  <router-link class="nav-link" :class="isActiveTab('/players')" :to="{path: '/players'}">Players</router-link>
+                    <router-link class="nav-link" :class="isActiveTab('/players')" :to="{path: '/players'}">Players</router-link>
                 </li>
                 <li class="nav-item">
                     <router-link class="nav-link" :class="isActiveTab('/statistics')" :to="{path: '/statistics'}">Statistics</router-link>
                 </li>
-              </ul>
+            </ul>
             <router-view></router-view>
         </div>
 
 
-    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>  <!-- axios server requests -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.17/vue.min.js"></script> <!-- vue -->
-    <script src="https://unpkg.com/http-vue-loader"></script> <!-- load vue files -->
-    <script src="https://unpkg.com/vue-router@3.0.1/dist/vue-router.js"></script> <!-- vue-router -->
-    <script src="https://unpkg.com/v-tooltip"></script> <!-- vue-tooltip -->
+        <script src="https://unpkg.com/axios/dist/axios.min.js"></script>  <!-- axios server requests -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.17/vue.min.js"></script> <!-- vue -->
+        <script src="https://unpkg.com/http-vue-loader"></script> <!-- load vue files -->
+        <script src="https://unpkg.com/vue-router@3.0.1/dist/vue-router.js"></script> <!-- vue-router -->
+        <script src="https://unpkg.com/v-tooltip"></script> <!-- vue-tooltip -->
 
-    <script src="https://unpkg.com/chart.js@2.8.0/dist/Chart.bundle.js"></script>
-    <script src="https://unpkg.com/vue-chartkick@0.6.1"></script>
+        <script src="https://unpkg.com/chart.js@2.8.0/dist/Chart.bundle.js"></script>
+        <script src="https://unpkg.com/vue-chartkick@0.6.1"></script>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment-with-locales.min.js"></script> <!-- moment -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.16.3/lodash.min.js"></script> <!-- lodash -->
-    <script src="js/vue.js"></script>
-  </body>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment-with-locales.min.js"></script> <!-- moment -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.16.3/lodash.min.js"></script> <!-- lodash -->
+        <script src="js/vue.js"></script>
+    </body>
 </html>

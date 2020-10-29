@@ -67,6 +67,14 @@ a:hover {
     color: #ffffff;
 }
 
+.other_tools {
+    position: absolute;
+    padding: 10px;
+}
+
+.other_tools > a {
+    color: #444;
+}
 
 /* tooltips */
 
