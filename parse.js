@@ -5,10 +5,6 @@ const fs = require('fs');
 
 var exports = module.exports = {};
 
-const games = [];
-for (let file_name of fs.readdirSync(__dirname + '/leaderboards/')) {
-    games.push(file_name.slice(0, -5));
-}
 
 function onlyUnique(value, index, self) { 
     return self.indexOf(value) === index;
@@ -17,6 +13,11 @@ function onlyUnique(value, index, self) {
 /* leaderboards analysis */
 exports.compare = async function (players)
 {
+    const games = [];
+    for (let file_name of fs.readdirSync(__dirname + '/leaderboards/')) {
+        games.push(file_name.slice(0, -5));
+    }
+
     let results = {};
     results.players_not_found = [];
     results.players_found = [];

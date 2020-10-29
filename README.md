@@ -13,7 +13,7 @@ Feel free to review, comment or improve the code.
 
 - First run `npm install` or `yarn install` depending on your node package manager.
 
-- Unzip `mocked_data.zip` to have default data to test with.
+- Unzip `mocked_data.zip` to have some default data to test with.
 
 - Run `node node.js` for the website (accessed at `localhost:8080`).
 

@@ -148,7 +148,7 @@ module.exports = {
         // "code-royale" -> "Code Royale"
         prettify: function(game) {
             return game
-            .split("-")
+            .split(/-+/)
             .map(word => word[0].toUpperCase() + word.substr(1))
             .join(" ");
         },
