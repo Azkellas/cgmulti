@@ -9,7 +9,7 @@
             </li>
         </ul>
 
-        <line-chart class="justify-content-center" id="dailyChart" :data="graphData" xtitle="date" ytitle="new submissions in the top1000" height="700px" :messages="{empty: 'Failed to load data. Try again or contact Azkellas.'}"></line-chart>
+        <line-chart class="justify-content-center" id="dailyChart" :data="graphData" xtitle="date" ytitle="new submissions in the top1000" height="700px" :messages="{empty: 'Failed to load data. Try again or contact Azkellas.'}" :colors="colors"></line-chart>
 
         <br /><br /><br />
         <div id="contestant">
@@ -84,7 +84,9 @@ module.exports = {
             stats: {},
             graphData: {},
             locale: window.navigator.userLanguage || window.navigator.language,
-            noYearLocaleFormat : ''
+            noYearLocaleFormat : '',
+            colors: {},
+            random_seed: 0
         };
     },
 
@@ -121,6 +123,22 @@ module.exports = {
             this.getStats();
         },
 
+        mulberry32: function() {
+            var t = this.random_seed += 0x6D2B79F5;
+            t = Math.imul(t ^ t >>> 15, t | 1);
+            t ^= t + Math.imul(t ^ t >>> 7, t | 61);
+            return ((t ^ t >>> 14) >>> 0) / 4294967296;
+        },
+
+        getRandomColor: function() {
+            const letters = '0123456789ABCDEF'.split('');
+            let color = '#';
+            for (let i = 0; i < 6; ++i) {
+                color += letters[Math.floor(this.mulberry32() * 16)];
+            }
+            return color;
+        },
+
         getStats: function() {
             var vm = this;
             axios
@@ -149,8 +167,10 @@ module.exports = {
         },
 
         computeGraph: function() {
+            this.random_seed = 0;
             let data = this.stats;
             let result = [];
+            this.colors = [];
             result.dataset = [];
             for (let game in data.games)
             {
@@ -165,6 +185,7 @@ module.exports = {
                         gameStats.data[date] = 0;
                 }
                 result.push(gameStats);
+                this.colors.push(this.getRandomColor());
             }
             this.graphData = result;
         },
@@ -173,7 +194,6 @@ module.exports = {
             // Game Of Drones has API ref game-of-drone and url path game-of-drones
             const gamePath = game + ((game === 'game-of-drone') ? 's' : '');
             return baseUrl + gamePath + "/";
-
         }
 
     }
