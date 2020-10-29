@@ -28,9 +28,8 @@ app.use(express.static('./public'))
 
 // get with players  (probably ugly as fuck)
 .get('/playersQuery/', urlencodedParser, function(req, res) {
-    console.log('playersQuery')
     var queryData = url.parse(req.url, true).query;
-    console.log(queryData);
+    console.log('playersQuery:', queryData.playersQuery);
     if (queryData.playersQuery === undefined)
         //res.redirect('/');
         res.send({});

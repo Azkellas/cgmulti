@@ -13,7 +13,7 @@
 
         <br /><br /><br />
         <div id="contestant">
-            <table class="justify-content-center table table-dark table-striped table-bordered table-hover table-condensed table-sm" style="width: max-content;" align="center">
+            <table v-if="stats.dates" class="justify-content-center table table-dark table-striped table-bordered table-hover table-condensed table-sm" style="width: max-content;" align="center">
                 <thead>
                     <tr>
                         <th scope="col" class="stickycol"></th>
@@ -161,13 +161,13 @@ module.exports = {
         // "code-royale" -> "Code Royale"
         prettify: function(game) {
             return game
-                .split("-")
+                .split(/-+/)
                 .map(word => word[0].toUpperCase() + word.substr(1))
                 .join(" ");
         },
 
         computeGraph: function() {
-            this.random_seed = 0;
+            this.random_seed = 21;
             let data = this.stats;
             let result = [];
             this.colors = [];

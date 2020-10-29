@@ -3,7 +3,10 @@ var util = require('util');
 var moment = require('moment');
 var readFile = util.promisify(fs.readFile);
 
-const games = ["a-code-of-ice-and-fire", "code-a-la-mode", "cultist-wars", "bandas", "bit-runner-2048", "yavalath", "langton-s-ant", "checkers", "vindinium", "legends-of-code-magic", "code-of-kutulu", "code-royale", "tic-tac-toe", "botters-of-the-galaxy", "code4life", "mean-max", "wondev-woman", "coders-of-the-caribbean",  "ghost-in-the-cell", "fantastic-bits", "hypersonic", "codebusters", "smash-the-code", "coders-strike-back", "back-to-the-code", "great-escape", "platinum-rift2", "platinum-rift", "poker-chip-race", "game-of-drone", "tron-battle", "xmas-rush"];	
+const games = [];
+for (let file_name of fs.readdirSync(__dirname + '/leaderboards/')) {
+    games.push(file_name.slice(0, -5));
+}
 
 const dateFormat = 'YYYY/MM/DD';
 
@@ -13,7 +16,6 @@ async function computeNewSubmits(game)
 {
     let content = await readFile(__dirname + '/leaderboards/' + game + '.json');
     let data = JSON.parse(content);
-    // console.log(data);
     let today = moment();
     let yesterday = today.clone().subtract(1, 'day');
     let users = data['success']['users'];
@@ -21,12 +23,10 @@ async function computeNewSubmits(game)
     let count = 0;
     for (let u of users)
     {
-        // console.log(u)
         if (u['pseudo'])
         {
             if (yesterday.isSame(moment(u['creationTime']), 'day'))
             {
-                //console.log(u['pseudo']);
                 count++;
             }
         }
@@ -53,7 +53,8 @@ async function updateGraphDate()
     if (data.games === undefined)
         data.games = {};
 
-    data.dates.push(today);
+    if (!data.dates.includes(today))
+        data.dates.push(today);
     
     for (let json of game_counts_array)
     {

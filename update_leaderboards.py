@@ -26,18 +26,41 @@ def download_leaderboard(multi):
 	except ValueError:
 		print(str(datetime.now()) + ": could not dump json of " + multi + ": " + ValueError)
 
+def get_multi_list():
+	# Method courtesy of Neumann
+	# First get the global puzzle list
+	req_t = 'https://www.codingame.com/services/PuzzleRemoteService/findAllMinimalProgress'
+	r = requests.post(req_t, data="[null]")
+	d = r.json()
+	if "error" in d:
+		print(str(datetime.now()) + ": failed to fetch multi list " + multi + ", got the API error :" + d["error"]["message"])
+		return
 
+	multiIds = []
+	for game in d["success"]:
+		if game["level"] == "multi":
+			multiIds.append(game["id"])
+
+	# Then get the details on every multi
+	req_t = 'https://www.codingame.com/services/PuzzleRemoteService/findProgressByIds'
+	r = requests.post(req_t, data=f"[{multiIds}, null, 1]")
+	d = r.json()
+	if "error" in d:
+		print(str(datetime.now()) + ": failed to fetch multi list " + multi + ", got the API error :" + d["error"]["message"])
+		return
+
+	multis = []
+	for game in d["success"]:
+		multis.append(game["puzzleLeaderboardId"])
+	
+	return multis
 
 if __name__ == "__main__":
+
+	games = get_multi_list()
 
 	if not os.path.exists(os.path.join(dir_path,"leaderboards")):		# create the directory if it doesn't exist 
 		os.mkdir(os.path.join(dir_path,"leaderboards"))
 
-	games = ["a-code-of-ice-and-fire", "code-a-la-mode", "cultist-wars", "bandas", "bit-runner-2048", "yavalath", "langton-s-ant", "checkers", "vindinium", "legends-of-code-magic", "code-of-kutulu", "code-royale", "tic-tac-toe", "botters-of-the-galaxy", "code4life", "mean-max", "wondev-woman", "coders-of-the-caribbean",  "ghost-in-the-cell", "fantastic-bits", "hypersonic", "codebusters", "smash-the-code", "coders-strike-back", "back-to-the-code", "great-escape", "platinum-rift2", "platinum-rift", "poker-chip-race", "game-of-drone", "tron-battle", "xmas-rush"]
 	for game in games:
-		path_file = os.path.join("leaderboards", game + '.json')
-
-		# check if the file is recent enough
-		# timestamp = os.stat(path_file).st_mtime
-		# if time.time() - timestamp > 3000:
 		download_leaderboard(game)
