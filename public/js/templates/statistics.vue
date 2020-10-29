@@ -12,33 +12,71 @@
         <line-chart class="justify-content-center" id="dailyChart" :data="graphData" xtitle="date" ytitle="new submissions in the top1000" height="700px" :messages="{empty: 'Failed to load data. Try again or contact Azkellas.'}"></line-chart>
 
         <br /><br /><br />
-        <table class="justify-content-center table table-dark table-striped table-bordered table-hover table-condensed table-sm" style="width: max-content;" align="center">
-            <thead>
-                <tr>
-                    <th scope="col"></th>
-                    <th v-for="date in stats.dates" :key="date"><div><span>{{printDate(date)}}</span></div></th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr v-for="(counts, game) in stats.games" :key="game">
-                    <!-- game -->
-                    <th scope="row"><span class="game"><a :href='getLink(game)' target="_blank">{{prettify(game)}}</a></span></th>
-                    <!-- displays players ranks-->
-                    <td v-for="date of stats.dates" :key="date">
-                        {{stats.games[game][date]}}
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+        <div id="contestant">
+            <table class="justify-content-center table table-dark table-striped table-bordered table-hover table-condensed table-sm" style="width: max-content;" align="center">
+                <thead>
+                    <tr>
+                        <th scope="col" class="stickycol"></th>
+                        <th v-for="date in stats.dates.slice().reverse()" :key="date"><div><span>{{printDate(date)}}</span></div></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="(counts, game) in stats.games" :key="game">
+                        <th scope="row" class="stickycol"><span class="game"><a :href='getLink(game)' target="_blank">{{prettify(game)}}</a></span></th>
+                        <!-- displays players ranks-->
+                        <td v-for="date of stats.dates.slice().reverse()" :key="date">
+                            {{stats.games[game][date]}}
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        <div>
     </div>
 </template>
 
 <style>
+    body{
+        margin:0;
+    }
+
+    .stickycol {
+        position: sticky;
+        left:0;
+        background-color:#212529;
+        font-size:0.9rem
+    }
+
+    .table-dark.table-hover thead tr{
+        font-size:0.9rem
+    }
+
+    .table-dark.table-hover tbody tr:hover .stickycol, .table-dark.table-hover tbody tr:hover {
+        background-color:#525960;
+    }
+
+    .table-dark.table-hover{
+        margin-bottom:0.5%;
+    }
+
 </style>
 
 <script>
 const baseUrl = 'https://www.codingame.com/multiplayer/bot-programming/';
 const dateFormat = 'YYYY/MM/DD';
+var month = {
+  "01": "Jan",
+  "02": "Feb",
+  "03": "Mar",
+  "04": "Apr",
+  "05": "May",
+  "06": "Jun",
+  "07": "Jul",
+  "08": "Aug",
+  "09": "Sep",
+  "10": "Oct",
+  "11": "Nov",
+  "12": "Dec"
+};
 
 module.exports = {
     data: function() {
@@ -98,7 +136,7 @@ module.exports = {
 
         printDate: function(date) {
             date = moment(date, dateFormat);
-            return date.format(noYearLocaleFormat);
+            return "〚"+ month[date.format("MM")] +date.format(" DD, YY〛");
         },
 
 
@@ -140,4 +178,6 @@ module.exports = {
 
     }
 };
+
+
 </script>
