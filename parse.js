@@ -117,7 +117,7 @@ async function getRanksInMulti (multi, pseudos)
 
     let data = JSON.parse(content);
 
-    let users = data['success']['users'];
+    let users = data['users'];
 
     let pseudoRemaining = pseudos.length;
     let result = {};

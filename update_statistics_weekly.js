@@ -18,7 +18,7 @@ async function computeNewSubmits(game)
     moment.locale('fr'); // monday to sunday
     let today = moment();
     let date = today.clone().subtract(1, 'day');
-    let users = data['success']['users'];
+    let users = data['users'];
    
     let count = 0;
     for (let u of users)

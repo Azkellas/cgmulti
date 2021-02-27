@@ -18,7 +18,7 @@ async function computeNewSubmits(game)
     let data = JSON.parse(content);
     let today = moment();
     let yesterday = today.clone().subtract(1, 'day');
-    let users = data['success']['users'];
+    let users = data['users'];
    
     let count = 0;
     for (let u of users)

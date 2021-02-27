@@ -37,7 +37,7 @@ def get_multi_list():
 		return
 
 	multiIds = []
-	for game in d["success"]:
+	for game in d:
 		if game["level"] == "multi":
 			multiIds.append(game["id"])
 
@@ -50,7 +50,7 @@ def get_multi_list():
 		return
 
 	multis = []
-	for game in d["success"]:
+	for game in d:
 		multis.append(game["puzzleLeaderboardId"])
 	
 	return multis
